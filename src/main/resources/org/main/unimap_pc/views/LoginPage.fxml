@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #0000FF;">
+         <children>
+            <ImageView fitHeight="440.0" fitWidth="366.0" layoutX="61.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../GPS_app.png" />
+               </image>
+            </ImageView>
+            <Label ellipsisString="" layoutX="90.0" layoutY="45.0" text="Welcome" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="64.0" />
+               </font>
+            </Label>
+            <Label layoutX="137.0" layoutY="405.0" text="UniMap PC" textFill="WHITE">
+               <font>
+                  <Font name="Monaco" size="42.0" />
+               </font>
+            </Label>
+            <Label layoutX="11.0" layoutY="575.0" text="Design by Faustynn" textFill="WHITE">
+               <font>
+                  <Font name="Andale Mono" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="220.0" layoutY="459.0" text="0.100.1" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="14.0" text="X" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
+         <children>
+            <JFXTextField fx:id="loginField" focusColor="#1a6c9b" labelFloat="true" layoutX="43.0" layoutY="213.0" prefHeight="26.0" prefWidth="414.0" promptText="Username">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="passwordField" focusColor="#1a6c9b" layoutX="43.0" layoutY="275.0" prefHeight="26.0" prefWidth="414.0" promptText="Password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <Label layoutX="47.0" layoutY="343.0" text="Forgot your password?" textFill="#4d4d4d" />
+            <JFXButton layoutX="267.0" layoutY="329.0" prefHeight="45.0" prefWidth="164.0" style="-fx-background-color: #0000ff;" text="Sign in" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
+            <JFXButton layoutX="86.0" layoutY="415.0" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: #1e90ff;" text="Facebook" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="310.0" layoutY="415.0" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: red;" text="Gmail" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="111.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../stu_logo.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="43.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+            <Separator layoutX="267.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+            <Label layoutX="378.0" layoutY="571.0" text=" Download App" textFill="#c3c3c3">
+               <font>
+                  <Font name="Andale Mono" size="13.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="168.0" layoutY="483.0" prefHeight="45.0" prefWidth="164.0" style="-fx-background-color: #0000ff;" text="Sign up" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
