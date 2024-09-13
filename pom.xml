@@ -4,17 +4,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.main.unimap_pc</groupId>
-  <artifactId>UniMap_PC</artifactId>
+  <artifactId>UniMapClient</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>UniMap_PC</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
-    <java.version>21</java.version>
-    <javafx.version>21.0.2</javafx.version>
-    <jfoenix.version>9.0.10</jfoenix.version>
+    <maven.compiler.release>22</maven.compiler.release>
+    <java.version>22</java.version>
+    <javafx.version>22</javafx.version>
+    <jfoenix.version>9.0.9</jfoenix.version>
   </properties>
 
   <dependencies>
@@ -40,27 +39,27 @@
       <version>${javafx.version}</version>
     </dependency>
 
-    <!-- JFoenix -->
+  <!-- MaterialFX -->
     <dependency>
-      <groupId>com.jfoenix</groupId>
-      <artifactId>jfoenix</artifactId>
-      <version>${jfoenix.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-controls</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>io.github.palexdev</groupId>
+      <artifactId>materialfx</artifactId>
+      <version>11.17.0</version>
     </dependency>
 
+    <!-- Lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+      <scope>provided</scope>
+    </dependency>
 
-    <!-- Fontawasomefx -->
-
-
-    <!-- PostgreSQL Dependency -->
-
-
-    <!-- Spring Framework Dependencies -->
+    <!-- Fontawesomefx -->
+    <dependency>
+      <groupId>de.jensd</groupId>
+      <artifactId>fontawesomefx</artifactId>
+      <version>8.2</version>
+    </dependency>
 
 
 
@@ -74,17 +73,44 @@
   </repositories>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
     <plugins>
+      <!-- Maven Exec Plugin для добавления аргументов JVM -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <mainClass>org.main.unimap_pc.client.MainApp</mainClass>
+          <arguments>
+            <argument>--add-opens</argument>
+            <argument>javafx.controls/javafx.scene.control.skin=ALL-UNNAMED</argument>
+            <argument>--add-exports</argument>
+            <argument>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+
       <!-- Maven Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.8.1</version>
         <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <source>11</source>
+          <target>11</target>
+          <compilerArgs>
+            <arg>--release</arg>
+            <arg>11</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
+
 
       <!-- JavaFX Maven Plugin -->
       <plugin>
@@ -96,6 +122,39 @@
         </configuration>
       </plugin>
 
+      <!-- Maven Enforcer Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <dependencyConvergence />
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <java.version>21</java.version>
+      </properties>
+    </profile>
+    </profiles>
+
 </project>

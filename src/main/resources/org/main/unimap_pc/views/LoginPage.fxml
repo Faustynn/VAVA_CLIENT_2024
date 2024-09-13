@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -10,89 +12,81 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #0000FF;">
-         <children>
-            <ImageView fitHeight="440.0" fitWidth="366.0" layoutX="61.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../GPS_app.png" />
-               </image>
-            </ImageView>
-            <Label ellipsisString="" layoutX="90.0" layoutY="45.0" text="Welcome" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="64.0" />
-               </font>
-            </Label>
-            <Label layoutX="137.0" layoutY="405.0" text="UniMap PC" textFill="WHITE">
-               <font>
-                  <Font name="Monaco" size="42.0" />
-               </font>
-            </Label>
-            <Label layoutX="11.0" layoutY="575.0" text="Design by Faustynn" textFill="WHITE">
-               <font>
-                  <Font name="Andale Mono" size="13.0" />
-               </font>
-            </Label>
-            <Label layoutX="220.0" layoutY="459.0" text="0.100.1" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="14.0" layoutY="14.0" text="X" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
-         <children>
-            <JFXTextField fx:id="loginField" focusColor="#1a6c9b" labelFloat="true" layoutX="43.0" layoutY="213.0" prefHeight="26.0" prefWidth="414.0" promptText="Username">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXTextField>
-            <JFXPasswordField fx:id="passwordField" focusColor="#1a6c9b" layoutX="43.0" layoutY="275.0" prefHeight="26.0" prefWidth="414.0" promptText="Password">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXPasswordField>
-            <Label layoutX="47.0" layoutY="343.0" text="Forgot your password?" textFill="#4d4d4d" />
-            <JFXButton layoutX="267.0" layoutY="329.0" prefHeight="45.0" prefWidth="164.0" style="-fx-background-color: #0000ff;" text="Sign in" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </JFXButton>
-            <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
-            <JFXButton layoutX="86.0" layoutY="415.0" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: #1e90ff;" text="Facebook" textFill="WHITE">
-               <font>
-                  <Font size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="310.0" layoutY="415.0" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: red;" text="Gmail" textFill="WHITE">
-               <font>
-                  <Font size="12.0" />
-               </font>
-            </JFXButton>
-            <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="111.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../stu_logo.png" />
-               </image>
-            </ImageView>
-            <Separator layoutX="43.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
-            <Separator layoutX="267.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
-            <Label layoutX="378.0" layoutY="571.0" text=" Download App" textFill="#c3c3c3">
-               <font>
-                  <Font name="Andale Mono" size="13.0" />
-               </font>
-            </Label>
-            <JFXButton layoutX="168.0" layoutY="483.0" prefHeight="45.0" prefWidth="164.0" style="-fx-background-color: #0000ff;" text="Sign up" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </AnchorPane>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.SignInController">
+   <AnchorPane prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #36436F;">
+      <ImageView fitHeight="440.0" fitWidth="366.0" layoutX="65.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/GPS_app.png" />
+      </ImageView>
+      <Label layoutX="122.0" layoutY="346.0" text="UniMap" textFill="WHITE">
+         <font>
+            <Font name="Rockwell" size="70.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="575.0" text="Design by Faustynn" textFill="WHITE">
+         <font>
+            <Font name="Andale Mono" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="219.0" layoutY="433.0" text="0.100.1" textFill="#ffffffe6">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
+      <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: pointer;" text="Forgot your password?" textFill="#4d4d4d" />
+      <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
+      <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="113.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/stu_logo.png" />
+      </ImageView>
+      <Separator layoutX="43.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+      <Separator layoutX="267.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+      <Label fx:id="downlApp" layoutX="378.0" layoutY="571.0" text=" Download App" textFill="#c3c3c3">
+         <font>
+            <Font name="Andale Mono" size="13.0" />
+         </font>
+      </Label>
+      <FontAwesomeIcon fill="#0d232f" glyphName="USERS" layoutX="33.0" layoutY="237.0" size="25" />
+      <FontAwesomeIcon fill="#0d2330" glyphName="LOCK" layoutX="39.0" layoutY="299.0" size="25" />
+      <FontAwesomeIcon fill="#8a8a8a" glyphName="DOWNLOAD" layoutX="367.0" layoutY="583.0" size="15" />
+      <Label layoutX="188.0" layoutY="493.0" text="Don't have an account?" textFill="#4d4d4d" />
+      <MFXTextField fx:id="fieldUsername" borderGap="0.0" floatingText="Username" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="73.0" layoutY="205.0" maxHeight="41.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </MFXTextField>
+      <MFXPasswordField fx:id="fieldPassword" borderGap="0.0" floatingText="Password" floatingTextGap="1.0" layoutX="73.0" layoutY="270.0" maxHeight="40.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" />
+      <MFXButton fx:id="btnSignin" layoutX="271.0" layoutY="323.0" onMouseClicked="#handleSignIn" prefHeight="48.0" prefWidth="140.0" style="-fx-background-color: #36436F;" text="Log In" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="btnSignup" layoutX="169.0" layoutY="515.0" onMouseClicked="#handleSignUp" prefHeight="47.0" prefWidth="161.0" style="-fx-background-color: #36436F;" text="Sign Up" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="btnFacebook" layoutX="92.0" layoutY="428.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #659ac9;" text="Facebook" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="FACEBOOK" tabSize="20" wrappingWidth="14.92901611328125" />
+         </graphic>
+      </MFXButton>
+      <MFXButton fx:id="btnGoogle" layoutX="309.0" layoutY="430.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #c72633;" text="Google" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="GOOGLE" wrappingWidth="16.048017501831055" />
+         </graphic>
+      </MFXButton>
+      <MFXLegacyComboBox layoutX="386.0" layoutY="17.0" promptText="Language" unfocusedLineColor="#36436f" />
+      <Label fx:id="infoMess" layoutX="151.0" layoutY="175.0" textFill="#cd1d2c">
+         <font>
+            <Font name="Roboto Bold Italic" size="14.0" />
+         </font>
+      </Label>
+   </AnchorPane>
 </AnchorPane>
