@@ -38,7 +38,7 @@
                 </Label>
             <MFXButton layoutX="80.0" layoutY="197.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0000ff;" text="Send" textFill="WHITE" />
             <MFXButton layoutX="252.0" layoutY="197.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0000ff;" text="Cencel" textFill="WHITE" />
-            <MFXTextField layoutX="75.0" layoutY="111.0" prefHeight="51.0" prefWidth="300.0" promptText="Write your Login or Email" />
+            <MFXTextField layoutX="75.0" layoutY="111.0" prefHeight="51.0" prefWidth="300.0" promptText="Login or Email" />
             </children>
         </AnchorPane>
     </children>

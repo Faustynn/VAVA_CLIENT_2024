@@ -1,36 +1,31 @@
 package org.main.unimap_pc.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.main.unimap_pc.client.controllers.SceneController;
-import org.main.unimap_pc.client.services.RestClientConnection;
+import org.main.unimap_pc.client.services.CheckClientConnection;
+import org.main.unimap_pc.client.utils.LoadingScreens;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.*;
-
 import static org.main.unimap_pc.client.utils.ErrorScreens.showErrorScreen;
 
 public class MainApp extends Application {
     @Getter
     private static SceneController sceneController;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private boolean connectionEstablished = false;
 
+    // Constants
     private static final String APP_TITLE = "UniMap";
     private static final String ICON_PATH = "/org/main/unimap_pc/images/GPS_app.png";
     private static final String CONNECTION_URL = "http://localhost:8080/api/unimap_pc/check-connection";
-
-
-    @Override
-    public void start(Stage stage) {
-        stage.setTitle(APP_TITLE);
-        setAppIcon(stage);
-
-        checkServerConnectionAsync(stage);
-    }
-
+    private static final String LOGIN_PAGE_PATH = "/org/main/unimap_pc/views/LoginPage.fxml";
 
     private void setAppIcon(Stage stage) {
         try (InputStream iconStream = getClass().getResourceAsStream(ICON_PATH)) {
@@ -40,50 +35,115 @@ public class MainApp extends Application {
             Image icon = new Image(iconStream);
             stage.getIcons().add(icon);
         } catch (IOException e) {
-         //   TO DO logging
-        }
-    }
-
-    private void checkServerConnectionAsync(Stage stage) {
-        CompletableFuture.supplyAsync(() -> RestClientConnection.checkConnection(CONNECTION_URL), executorService).thenAccept(isConnected -> {
-            if (isConnected) {
-                initializeSceneController(stage);
-            } else {
-                //   TO DO logging
-                showErrorScreen("Server is not available. Please try again later.");
-            }
-        }).exceptionally(ex -> {
-            //   TO DO logging
-            showErrorScreen("Error connecting to the server. Please try again later.");
-            return null;
-        });
-    }
-
-    private void initializeSceneController(Stage stage) {
-        try {
-            sceneController = new SceneController(stage);
-            sceneController.changeScene("/org/main/unimap_pc/views/LoginPage.fxml");
-            stage.show();
-        } catch (IOException e) {
-            //   TO DO logging
-            showErrorScreen("Error loading the application. Please try again later.");
+            System.err.println("Failed to load application icon: " + e.getMessage());
         }
     }
 
     @Override
-    public void stop() {
-        executorService.shutdown();
-        try {
-            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-                //   TO DO logging
-                executorService.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            //   TO DO logging
-            executorService.shutdownNow();
-        }
+    public void start(Stage stage) {
+        stage.setTitle(APP_TITLE);
+        setAppIcon(stage);
+
+        sceneController = new SceneController(stage);
+        LoadingScreens.showLoadScreen(stage);
+
+        checkServerConnectionAsync(stage);
+        schedulePeriodicServerChecks(stage);
     }
 
+    private void checkServerConnectionAsync(Stage stage) {
+        if(!connectionEstablished){
+            System.out.println("Checking server connection...");
+        }else {
+            System.out.println("Periodical Server Checking...");
+        }
+        attemptConnection(stage, 3);
+    }
+    private void showLoadingScreen(Stage stage) {
+        Platform.runLater(() -> {
+            LoadingScreens.showLoadScreen(stage);
+        });
+    }
+
+    private void attemptConnection(Stage stage, int attemptsLeft) {
+        CheckClientConnection.checkConnectionAsync(CONNECTION_URL)
+                .thenAccept(isConnected -> {
+                    if (isConnected) {
+                        if (!connectionEstablished) {
+                            connectionEstablished = true;
+                            System.out.println("Connection successful!");
+                            Platform.runLater(() -> {
+                                try {
+                                    sceneController.changeScene(LOGIN_PAGE_PATH);
+                                    stage.show();
+                                } catch (IOException e) {
+                                    System.err.println("Failed to load login page: " + e.getMessage());
+                                    showErrorAndExit("Error loading the application. Please try again later.");
+                                }
+                            });
+                        }
+                    } else {
+                        if (connectionEstablished) {
+                            connectionEstablished = false;
+                            System.out.println("Connection lost, showing loading screen...");
+                            showLoadingScreen(stage);
+                        }
+                        if (attemptsLeft > 1) {
+                            System.out.println("Retrying connection...");
+                            scheduler.schedule(() -> attemptConnection(stage, attemptsLeft - 1), 3, TimeUnit.SECONDS);
+                        } else {
+                            Platform.runLater(() ->
+                                    showErrorAndExit("Server is not available. Please try again later.")
+                            );
+                        }
+                    }
+                })
+                .exceptionally(ex -> {
+                    if (connectionEstablished) {
+                        connectionEstablished = false;
+                        System.out.println("Connection lost, showing loading screen...");
+                        showLoadingScreen(stage);
+                    }
+                    if (attemptsLeft > 1) {
+                        System.out.println("Retrying connection...");
+                        scheduler.schedule(() -> attemptConnection(stage, attemptsLeft - 1), 3, TimeUnit.SECONDS);
+                    } else {
+                        Platform.runLater(() ->
+                                showErrorAndExit("Error connecting to the server. Please try again later.")
+                        );
+                    }
+                    return null;
+                });
+    }
+
+    private void schedulePeriodicServerChecks(Stage stage) {
+        scheduler.scheduleAtFixedRate(() -> {
+            checkServerConnectionAsync(stage);
+        }, 0, 5, TimeUnit.SECONDS);
+    }
+
+
+    private void showErrorAndExit(String message) {
+        showErrorScreen(message);
+        stop();
+    }
+    @Override
+    public void stop() {
+        executorService.shutdown();
+        scheduler.shutdown();
+        try {
+            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+            if (!scheduler.awaitTermination(10, TimeUnit.SECONDS)) {
+                scheduler.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+            scheduler.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }
