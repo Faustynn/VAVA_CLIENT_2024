@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.controllers.SceneController;
 import org.main.unimap_pc.client.services.CheckClientConnection;
 import org.main.unimap_pc.client.utils.LoadingScreens;
@@ -21,16 +22,10 @@ public class MainApp extends Application {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private boolean connectionEstablished = false;
 
-    // Constants
-    private static final String APP_TITLE = "UniMap";
-    private static final String ICON_PATH = "/org/main/unimap_pc/images/GPS_app.png";
-    private static final String CONNECTION_URL = "http://localhost:8080/api/unimap_pc/check-connection";
-    private static final String LOGIN_PAGE_PATH = "/org/main/unimap_pc/views/LoginPage.fxml";
-
     private void setAppIcon(Stage stage) {
-        try (InputStream iconStream = getClass().getResourceAsStream(ICON_PATH)) {
+        try (InputStream iconStream = getClass().getResourceAsStream(AppConfig.getIconPath())) {
             if (iconStream == null) {
-                throw new IllegalArgumentException("Icon file not found: " + ICON_PATH);
+                throw new IllegalArgumentException("Icon file not found: " + AppConfig.getIconPath());
             }
             Image icon = new Image(iconStream);
             stage.getIcons().add(icon);
@@ -41,7 +36,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle(APP_TITLE);
+        stage.setTitle(AppConfig.getAppTitle());
         setAppIcon(stage);
 
         sceneController = new SceneController(stage);
@@ -66,7 +61,7 @@ public class MainApp extends Application {
     }
 
     private void attemptConnection(Stage stage, int attemptsLeft) {
-        CheckClientConnection.checkConnectionAsync(CONNECTION_URL)
+        CheckClientConnection.checkConnectionAsync(AppConfig.getCheckConnectionUrl())
                 .thenAccept(isConnected -> {
                     if (isConnected) {
                         if (!connectionEstablished) {
@@ -74,7 +69,7 @@ public class MainApp extends Application {
                             System.out.println("Connection successful!");
                             Platform.runLater(() -> {
                                 try {
-                                    sceneController.changeScene(LOGIN_PAGE_PATH);
+                                    sceneController.changeScene(AppConfig.getLoginPagePath());
                                     stage.show();
                                 } catch (IOException e) {
                                     System.err.println("Failed to load login page: " + e.getMessage());

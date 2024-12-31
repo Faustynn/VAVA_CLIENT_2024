@@ -29,4 +29,17 @@ public class SceneController {
         newStage.setScene(new Scene(root));
         newStage.show();
     }
+
+    public void replaceSceneContent(String fxml) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        stage.getScene().setRoot(root);
+    }
+
+    public void closeStage() {
+        stage.close();
+    }
+
+    public void showStage() {
+        stage.show();
+    }
 }

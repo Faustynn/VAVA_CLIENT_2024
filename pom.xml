@@ -39,6 +39,14 @@
       <version>${javafx.version}</version>
     </dependency>
 
+    <!-- Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.15.2</version>
+    </dependency>
+
+
   <!-- MaterialFX -->
     <dependency>
       <groupId>io.github.palexdev</groupId>
@@ -89,9 +97,7 @@
           <mainClass>org.main.unimap_pc.client.MainApp</mainClass>
           <arguments>
             <argument>--add-opens</argument>
-            <argument>javafx.controls/javafx.scene.control.skin=ALL-UNNAMED</argument>
-            <argument>--add-exports</argument>
-            <argument>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</argument>
+            <argument>org.main.unimap_pc.client.models/org.main.unimap_pc.client.models=ALL-UNNAMED</argument>
           </arguments>
         </configuration>
       </plugin>

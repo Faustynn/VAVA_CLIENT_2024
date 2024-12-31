@@ -10,35 +10,36 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.ForgotPassController">
     <children>
-        <AnchorPane prefHeight="83.0" prefWidth="450.0" style="-fx-background-color: #0000ff;">
+        <AnchorPane fx:id="dragArea" prefHeight="83.0" prefWidth="450.0" style="-fx-background-color: #36436FFF;">
             <children>
                 <ImageView fitHeight="75.0" fitWidth="97.0" layoutX="5.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/GPS_app.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="80.0" layoutY="29.0" text="UniMap PC" textFill="WHITE">
+                <Label layoutX="80.0" layoutY="29.0" text="UniMap" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="28.0" />
                     </font>
                 </Label>
-                <Label fx:id="closeApp" layoutX="423.0" layoutY="32.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" text="X" textFill="WHITE">
+                <Label fx:id="closeApp" layoutX="410.0" layoutY="26.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" text="X" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="System Bold" size="22.0" />
                     </font>
                 </Label>
             </children>
         </AnchorPane>
         <AnchorPane layoutY="83.0" prefHeight="523.0" prefWidth="450.0">
             <children>
-                <Label layoutX="96.0" layoutY="24.0" prefHeight="40.0" prefWidth="268.0" text="Reset Password">
+                <Label layoutX="118.0" layoutY="40.0" prefHeight="40.0" prefWidth="268.0" text="Reset Password">
                     <font>
                         <Font name="System Bold" size="34.0" />
                     </font>
                 </Label>
-            <MFXButton layoutX="80.0" layoutY="197.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0000ff;" text="Send" textFill="WHITE" />
-            <MFXButton layoutX="252.0" layoutY="197.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0000ff;" text="Cencel" textFill="WHITE" />
-            <MFXTextField layoutX="75.0" layoutY="111.0" prefHeight="51.0" prefWidth="300.0" promptText="Login or Email" />
+            <MFXButton layoutX="83.0" layoutY="185.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #36436FFF;" text="Send" textFill="WHITE" />
+            <MFXButton layoutX="293.0" layoutY="185.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #36436FFF;" text="Cancel" textFill="WHITE" />
+            <MFXTextField layoutX="83.0" layoutY="112.0" prefHeight="51.0" prefWidth="300.0" promptText="                             Login or Email" />
+            <AnchorPane layoutX="133.0" layoutY="251.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36436FFF; -fx-background-radius: 25;" />
             </children>
         </AnchorPane>
     </children>
