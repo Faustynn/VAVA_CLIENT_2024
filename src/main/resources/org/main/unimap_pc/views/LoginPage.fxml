@@ -34,7 +34,7 @@
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
-      <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: pointer;" text="Forgot your password?" textFill="#4d4d4d" />
+      <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: hand;" text="Forgot your password?" textFill="#4d4d4d" />
       <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
       <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="113.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/stu_logo.png" />
@@ -56,17 +56,17 @@
          </font>
       </MFXTextField>
       <MFXPasswordField fx:id="fieldPassword" borderGap="0.0" floatingText="Password" floatingTextGap="1.0" layoutX="73.0" layoutY="270.0" maxHeight="40.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your password" />
-      <MFXButton fx:id="btnSignin" layoutX="271.0" layoutY="323.0" onMouseClicked="#handleSignIn" prefHeight="48.0" prefWidth="140.0" style="-fx-background-color: #36436F;" text="Log In" textFill="WHITE">
+      <MFXButton fx:id="btnSignin" layoutX="271.0" layoutY="323.0" onMouseClicked="#handleSignIn" prefHeight="48.0" prefWidth="140.0" style="-fx-background-color: #36436F; -fx-cursor: hand;" text="Log In" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </MFXButton>
-      <MFXButton fx:id="btnSignup" layoutX="169.0" layoutY="515.0" onMouseClicked="#handleSignUp" prefHeight="47.0" prefWidth="161.0" style="-fx-background-color: #36436F;" text="Sign Up" textFill="WHITE">
+      <MFXButton fx:id="btnSignup" layoutX="169.0" layoutY="515.0" onMouseClicked="#handleSignUp" prefHeight="47.0" prefWidth="161.0" style="-fx-background-color: #36436F; -fx-cursor: hand;" text="Sign Up" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </MFXButton>
-      <MFXButton fx:id="btnFacebook" layoutX="92.0" layoutY="428.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #659ac9;" text="Facebook" textFill="WHITE">
+      <MFXButton fx:id="btnFacebook" layoutX="92.0" layoutY="428.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #659ac9; -fx-cursor: hand;" text="Facebook" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>
@@ -74,7 +74,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="FACEBOOK" tabSize="20" wrappingWidth="14.92901611328125" />
          </graphic>
       </MFXButton>
-      <MFXButton fx:id="btnGoogle" layoutX="309.0" layoutY="430.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #c72633;" text="Google" textFill="WHITE">
+      <MFXButton fx:id="btnGoogle" layoutX="309.0" layoutY="430.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #c72633; -fx-cursor: hand;" text="Google" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>
