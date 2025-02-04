@@ -24,7 +24,7 @@ public class CheckClientConnection {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.discarding())
                 .thenApply(response -> response.statusCode() == 200)
                 .exceptionally(throwable -> {
-                    // TO DO logs
+                    // TODO: logs
                     System.err.println("Async connection check failed: " + throwable.getMessage());
                     return false;
                 });

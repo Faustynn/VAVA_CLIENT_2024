@@ -4,6 +4,7 @@ module org.main.unimap_pc {
     requires java.net.http;
     requires fontawesomefx;
     requires com.fasterxml.jackson.databind;
+    requires org.json;
 
     exports org.main.unimap_pc.client.models; // Экспорт пакет моделей
     exports org.main.unimap_pc.client to javafx.graphics; // Экспорт  MainApp

@@ -10,11 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.models.UserModel;
-import org.main.unimap_pc.client.services.GetUserInfo;
-import org.main.unimap_pc.client.utils.LoadingScreens;
+import org.main.unimap_pc.client.services.RegistrationService;
 
 import java.io.IOException;
-import javafx.scene.control.Alert;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CompletableFuture;
 import static org.main.unimap_pc.client.utils.ErrorScreens.showErrorScreen;
@@ -104,7 +102,7 @@ public class SignUpController {
         final int maxRetries = 3;
         final int[] currentRetry = {0};
 
-        CompletableFuture<UserModel> registrationFuture = GetUserInfo.sentUserForRegistration(
+        CompletableFuture<UserModel> registrationFuture = RegistrationService.sentUserForRegistration(
                 AppConfig.getCreateUser(),
                 fieldUsername.getText(),
                 fieldEmail.getText(),
@@ -128,7 +126,7 @@ public class SignUpController {
                         Thread.currentThread().interrupt();
                         return null;
                     }
-                }).thenCompose(v -> GetUserInfo.sentUserForRegistration(
+                }).thenCompose(v -> RegistrationService.sentUserForRegistration(
                         AppConfig.getCreateUser(),
                         fieldUsername.getText(),
                         fieldEmail.getText(),

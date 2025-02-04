@@ -19,7 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 import org.main.unimap_pc.client.configs.AppConfig;
-import org.main.unimap_pc.client.services.GetUserInfo;
+import org.main.unimap_pc.client.services.AuthService;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
 public class LogInController {
@@ -177,40 +177,38 @@ public class LogInController {
     }
 
     @FXML
-    private void handleSignIn() throws IOException {
-        if (fieldUsername.getText().isEmpty()) {
-            infoMess.setText("Please enter your username!");
+    private void handleSignIn() {
+        String username = fieldUsername.getText().trim();
+        String password = fieldPassword.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            infoMess.setText("Please enter your username and password!");
             return;
         }
-        if (fieldPassword.getText().isEmpty()) {
-            infoMess.setText("Please enter your password!");
+        if (username.length() < 3 || password.length() < 3) {
+            infoMess.setText("Username and password must be at least 3 characters long!");
             return;
         }
 
-        GetUserInfo.getUserByEmailOrLogin(AppConfig.getGetUserUrl(), fieldUsername.getText())
-                .thenAccept(user -> {
-                    Platform.runLater(() -> {
-                        if (user == null) {
-                            infoMess.setText("This User doesn't exist!");
-                            return;
-                        }
-                        if (user.getPassword().equals(fieldPassword.getText())) {
-                            try {
-                                Stage currentStage = (Stage) btnSignin.getScene().getWindow();
-
-                                sceneController = new SceneController(currentStage);
-                                LoadingScreens.showLoadScreen(currentStage);
-
-                                sceneController.replaceSceneContent(AppConfig.getMainPagePath());
-
-                            } catch (IOException e) {
-                                System.err.println("Failed to load main page: " + e.getMessage());
-                                showErrorDialog("Error loading the application. Please try again later.");
-                            }
-                        } else {
-                            infoMess.setText("Invalid username or password!");
-                        }
-                    });
-                });
+        AuthService.login(username, password).thenAccept(isLoginSuccessful -> {
+            Platform.runLater(() -> {
+                if (isLoginSuccessful) {
+                    try {
+                        Stage currentStage = (Stage) btnSignin.getScene().getWindow();
+                        sceneController = new SceneController(currentStage);
+                        LoadingScreens.showLoadScreen(currentStage);
+                        sceneController.replaceSceneContent(AppConfig.getMainPagePath());
+                    } catch (IOException e) {
+                        System.err.println("Failed to load main page: " + e.getMessage());
+                        showErrorDialog("Error loading the application. Please try again later.");
+                    }
+                } else {
+                    infoMess.setText("Invalid username or password!");
+                }
+            });
+        }).exceptionally(ex -> {
+            Platform.runLater(() -> infoMess.setText("Login request failed. Please try again later."));
+            return null;
+        });
     }
 }

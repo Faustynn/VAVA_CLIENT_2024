@@ -3,7 +3,6 @@ package org.main.unimap_pc.client.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -12,10 +11,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 import org.main.unimap_pc.client.models.UserModel;
 
-public class GetUserInfo {
+public class RegistrationService {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 
+    // get user info by email or login
     public static CompletableFuture<UserModel> getUserByEmailOrLogin(String url, String data) {
         if (data == null) {
             return CompletableFuture.completedFuture(null);
@@ -55,7 +55,8 @@ public class GetUserInfo {
                 });
     }
 
-    
+
+    // send user data token for registration
     public static CompletableFuture<UserModel> sentUserForRegistration(String url, String username, String email, String login, String password) {
         UserModel user = new UserModel(username, email, login, password);
         ObjectMapper objectMapper = new ObjectMapper();
