@@ -4,6 +4,7 @@ public class AppConfig {
     // General app setings
     private static final String APP_TITLE = "UniMap";
     private static final String ICON_PATH = "/org/main/unimap_pc/images/GPS_app.png";
+    private static final String GIT_HUB = "https://github.com/Faustynn/VAVA_2024";
 
     // FXLMs
     private static final String LOGIN_PAGE_PATH = "/org/main/unimap_pc/views/LoginPage.fxml";
@@ -17,6 +18,7 @@ public class AppConfig {
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
     private static final String GET_USER_URL = API_URL + "user/";
     private static final String GET_USER_BY_EMAIL_URL = API_URL + "user/email/";
+    private static final String CREATE_USER = API_URL + "user/create";
 
 
     // Getters
@@ -53,4 +55,9 @@ public class AppConfig {
     public static String getIconPath() {
         return ICON_PATH;
     }
+    public static String getCreateUser() {
+        return CREATE_USER;
+    }
+    public static String getGithubPage() {
+        return GIT_HUB; }
 }

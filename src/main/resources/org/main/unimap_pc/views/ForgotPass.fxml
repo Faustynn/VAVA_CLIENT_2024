@@ -6,11 +6,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.ForgotPassController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.ForgotPassController">
     <children>
-        <AnchorPane fx:id="dragArea" prefHeight="83.0" prefWidth="450.0" style="-fx-background-color: #36436FFF;">
+        <AnchorPane fx:id="dragArea" prefHeight="83.0" prefWidth="350.0" style="-fx-background-color: #36436FFF;">
             <children>
                 <ImageView fitHeight="75.0" fitWidth="97.0" layoutX="5.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -22,24 +23,32 @@
                         <Font name="System Bold" size="28.0" />
                     </font>
                 </Label>
-                <Label fx:id="closeApp" layoutX="410.0" layoutY="26.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" style="-fx-cursor: hand;" text="X" textFill="WHITE">
+                <Label fx:id="closeApp" layoutX="311.0" layoutY="28.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" style="-fx-cursor: hand;" text="X" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="22.0" />
                     </font>
                 </Label>
             </children>
         </AnchorPane>
-        <AnchorPane layoutY="83.0" prefHeight="523.0" prefWidth="450.0">
+        <AnchorPane layoutY="83.0" prefHeight="419.0" prefWidth="350.0">
             <children>
-                <Label layoutX="118.0" layoutY="40.0" prefHeight="40.0" prefWidth="268.0" text="Reset Password">
+                <Label layoutX="89.0" layoutY="23.0" prefHeight="29.0" prefWidth="172.0" text="Reset Password">
                     <font>
-                        <Font name="System Bold" size="34.0" />
+                        <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-            <MFXButton layoutX="83.0" layoutY="185.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Send" textFill="WHITE" />
-            <MFXButton layoutX="293.0" layoutY="185.0" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Cancel" textFill="WHITE" />
-            <MFXTextField layoutX="83.0" layoutY="112.0" prefHeight="51.0" prefWidth="300.0" promptText="                             Login or Email" />
-            <AnchorPane layoutX="133.0" layoutY="251.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36436FFF; -fx-background-radius: 25;" />
+            <MFXButton layoutX="142.0" layoutY="120.0" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Send" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font></MFXButton>
+            <MFXTextField layoutX="54.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="250.0" promptText="                     Enter your Email" textLimit="50">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <textFill>
+                  <Color />
+               </textFill></MFXTextField>
+            <AnchorPane layoutX="100.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #36436FFF; -fx-background-radius: 25;" />
             </children>
         </AnchorPane>
     </children>

@@ -12,6 +12,7 @@ import org.main.unimap_pc.client.utils.LoadingScreens;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.util.concurrent.*;
 import static org.main.unimap_pc.client.utils.ErrorScreens.showErrorScreen;
 
@@ -38,6 +39,7 @@ public class MainApp extends Application {
     public void start(Stage stage) {
         stage.setTitle(AppConfig.getAppTitle());
         setAppIcon(stage);
+        stage.initStyle(javafx.stage.StageStyle.UNDECORATED);
 
         sceneController = new SceneController(stage);
         LoadingScreens.showLoadScreen(stage);
@@ -52,63 +54,95 @@ public class MainApp extends Application {
         }else {
             System.out.println("Periodical Server Checking...");
         }
-        attemptConnection(stage, 3);
+        attemptConnection(stage, 10);
     }
+
     private void showLoadingScreen(Stage stage) {
         Platform.runLater(() -> {
             LoadingScreens.showLoadScreen(stage);
         });
     }
+    private void showLoadingScreen(Stage stage, String message) {
+        Platform.runLater(() -> {
+            LoadingScreens.showLoadScreen(stage, message);
+        });
+    }
 
     private void attemptConnection(Stage stage, int attemptsLeft) {
         CheckClientConnection.checkConnectionAsync(AppConfig.getCheckConnectionUrl())
-                .thenAccept(isConnected -> {
-                    if (isConnected) {
-                        if (!connectionEstablished) {
-                            connectionEstablished = true;
-                            System.out.println("Connection successful!");
-                            Platform.runLater(() -> {
-                                try {
-                                    sceneController.changeScene(AppConfig.getLoginPagePath());
-                                    stage.show();
-                                } catch (IOException e) {
-                                    System.err.println("Failed to load login page: " + e.getMessage());
-                                    showErrorAndExit("Error loading the application. Please try again later.");
-                                }
-                            });
-                        }
-                    } else {
-                        if (connectionEstablished) {
-                            connectionEstablished = false;
-                            System.out.println("Connection lost, showing loading screen...");
-                            showLoadingScreen(stage);
-                        }
-                        if (attemptsLeft > 1) {
-                            System.out.println("Retrying connection...");
-                            scheduler.schedule(() -> attemptConnection(stage, attemptsLeft - 1), 3, TimeUnit.SECONDS);
-                        } else {
-                            Platform.runLater(() ->
-                                    showErrorAndExit("Server is not available. Please try again later.")
-                            );
-                        }
+                .thenAccept(isConnected -> handleConnectionResult(stage, isConnected, attemptsLeft))
+                .exceptionally(ex -> handleConnectionException(stage, ex, attemptsLeft));
+    }
+
+    private void handleConnectionResult(Stage stage, boolean isConnected, int attemptsLeft) {
+        if (isConnected) {
+            handleSuccessfulConnection(stage);
+        } else {
+            handleFailedConnection(stage, attemptsLeft);
+        }
+    }
+    private void handleSuccessfulConnection(Stage stage) {
+        synchronized (this) {
+            if (!connectionEstablished) {
+                connectionEstablished = true;
+                System.out.println("Connection successful!");
+
+                Platform.runLater(() -> {
+                    try {
+                        sceneController.changeScene(AppConfig.getLoginPagePath());
+                        stage.show();
+                    } catch (IOException e) {
+                        handleLoginPageLoadError(e);
                     }
-                })
-                .exceptionally(ex -> {
-                    if (connectionEstablished) {
-                        connectionEstablished = false;
-                        System.out.println("Connection lost, showing loading screen...");
-                        showLoadingScreen(stage);
-                    }
-                    if (attemptsLeft > 1) {
-                        System.out.println("Retrying connection...");
-                        scheduler.schedule(() -> attemptConnection(stage, attemptsLeft - 1), 3, TimeUnit.SECONDS);
-                    } else {
-                        Platform.runLater(() ->
-                                showErrorAndExit("Error connecting to the server. Please try again later.")
-                        );
-                    }
-                    return null;
                 });
+            }
+        }
+    }
+    private void handleFailedConnection(Stage stage, int attemptsLeft) {
+        synchronized (this) {
+            if (connectionEstablished) {
+                connectionEstablished = false;
+                showLoadingScreen(stage);
+            }
+        }
+
+        if (attemptsLeft > 0) {
+            retryConnection(stage, attemptsLeft);
+        } else {
+            showLoadingScreen(stage, "Server is not available! Please write to administrators");
+        }
+    }
+    private Void handleConnectionException(Stage stage, Throwable ex, int attemptsLeft) {
+        logConnectionError(ex);
+
+        synchronized (this) {
+            if (connectionEstablished) {
+                connectionEstablished = false;
+                showLoadingScreen(stage, "Connection lost, retrying...");
+            }
+        }
+
+        if (attemptsLeft > 1) {
+            retryConnection(stage, attemptsLeft);
+        }
+
+        return null;
+    }
+
+    private void retryConnection(Stage stage, int attemptsLeft) {
+        System.out.println("Retrying connection...");
+        scheduler.schedule(() -> attemptConnection(stage, attemptsLeft - 1), 3, TimeUnit.SECONDS);
+    }
+    private void logConnectionError(Throwable ex) {
+        if (ex.getCause() instanceof ConnectException) {
+            System.err.println("Failed to connect to the server: " + ex.getMessage());
+        } else {
+            System.err.println("An error occurred: " + ex.getMessage());
+        }
+    }
+    private void handleLoginPageLoadError(IOException e) {
+        System.err.println("Failed to load login page: " + e.getMessage());
+        showErrorAndExit("Error loading the application. Please try again later.");
     }
 
     private void schedulePeriodicServerChecks(Stage stage) {

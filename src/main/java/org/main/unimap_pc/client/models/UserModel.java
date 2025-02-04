@@ -17,6 +17,13 @@ public class UserModel {
     private String email;
     private String login;
 
+    public UserModel(String username, String email, String login, String password) {
+        this.username = username;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+    }
+
     @JsonProperty("admin")
     private boolean isAdmin;
     private boolean subscribe;

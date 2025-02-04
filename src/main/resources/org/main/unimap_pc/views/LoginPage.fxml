@@ -12,8 +12,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.SignInController">
-   <AnchorPane prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #36436F;">
+<AnchorPane fx:id="dragArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.LogInController">
+   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #36436F;">
       <ImageView fitHeight="440.0" fitWidth="366.0" layoutX="65.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/GPS_app.png" />
       </ImageView>
@@ -32,8 +32,13 @@
             <Font name="Arial Black" size="16.0" />
          </font>
       </Label>
+      <Label fx:id="closeApp" layoutX="15.0" layoutY="13.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" style="-fx-cursor: hand;" text="X" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
    </AnchorPane>
-   <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
+   <AnchorPane layoutX="500.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
       <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: hand;" text="Forgot your password?" textFill="#4d4d4d" />
       <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
       <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="113.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
@@ -41,7 +46,7 @@
       </ImageView>
       <Separator layoutX="43.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
       <Separator layoutX="267.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
-      <Label fx:id="downlApp" layoutX="378.0" layoutY="571.0" text=" Download App" textFill="#c3c3c3">
+      <Label fx:id="downlApp" layoutX="378.0" layoutY="571.0" onMouseClicked="#handleDownlApp" style="-fx-cursor: hand;" text=" Download App">
          <font>
             <Font name="Andale Mono" size="13.0" />
          </font>
