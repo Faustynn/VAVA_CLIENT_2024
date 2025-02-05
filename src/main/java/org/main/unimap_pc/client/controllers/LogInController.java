@@ -20,6 +20,7 @@ import javafx.stage.StageStyle;
 
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.AuthService;
+import org.main.unimap_pc.client.services.RegistrationService;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
 public class LogInController {
