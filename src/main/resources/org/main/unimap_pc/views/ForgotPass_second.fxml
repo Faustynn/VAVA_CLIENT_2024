@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.ForgotPassController">
+   <children>
+      <AnchorPane fx:id="dragArea" prefHeight="83.0" prefWidth="350.0" style="-fx-background-color: #36436FFF;">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="97.0" layoutX="5.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/GPS_app.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="80.0" layoutY="29.0" text="UniMap" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label fx:id="closeApp" layoutX="311.0" layoutY="28.0" onMouseClicked="#handleCloseApp" prefWidth="16.0" style="-fx-cursor: hand;" text="X" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="83.0" prefHeight="240.0" prefWidth="350.0">
+         <children>
+            <Label layoutX="55.0" layoutY="14.0" prefHeight="44.0" prefWidth="250.0" text="Reset Password">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <MFXButton layoutX="132.0" layoutY="139.0" onMouseClicked="#ConfirmMailbtn" prefHeight="35.0" prefWidth="93.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Confirm" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+            <MFXTextField fx:id="fieldCode" layoutX="54.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="250.0" promptText="               Enter code from Email" textLimit="50">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <textFill>
+                  <Color />
+               </textFill>
+            </MFXTextField>
+         </children>
+      </AnchorPane>
+      <Label fx:id="infoMess2" layoutX="91.0" layoutY="155.0" textFill="#cd1d2c">
+         <font>
+            <Font name="Roboto Bold Italic" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

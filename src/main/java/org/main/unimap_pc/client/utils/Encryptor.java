@@ -5,20 +5,23 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-
-import de.jensd.fx.glyphs.testapps.App;
 import org.main.unimap_pc.client.configs.AppConfig;
 
 public class Encryptor {
+    private static final String ALGORITHM = AppConfig.getAesAlgorithm();
+    private static final String SECRET_KEY = AppConfig.getSecretKey();
+    private static final String IV = AppConfig.getIv();
 
     public static String encrypt(String data) throws Exception {
-        Cipher cipher = Cipher.getInstance(AppConfig.getAesAlgorithm());
-        SecretKeySpec secretKeySpec = new SecretKeySpec(AppConfig.getSecretKey().getBytes(StandardCharsets.UTF_8), "AES");
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(AppConfig.getIv().getBytes(StandardCharsets.UTF_8));
+        if (ALGORITHM == null || ALGORITHM.isEmpty()) {
+            throw new IllegalArgumentException("Algorithm is null or empty");
+        }
 
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
-        byte[] encryptedBytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-        return Base64.getEncoder().encodeToString(encryptedBytes);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(IV.getBytes());
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+        byte[] encrypted = cipher.doFinal(data.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
     }
-
 }
