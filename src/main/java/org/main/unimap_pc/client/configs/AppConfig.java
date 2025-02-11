@@ -84,13 +84,10 @@ public class AppConfig {
 
     private static final Properties properties = new Properties();
 
-
-
-
     static {
         try (InputStream input = AppConfig.class.getResourceAsStream("/org/main/unimap_pc/config.properties")) {
             if (input == null) {
-                System.out.println("config.properties file is null");
+                throw new RuntimeException("config.properties file is null");
             } else {
                 properties.load(input);
             }
