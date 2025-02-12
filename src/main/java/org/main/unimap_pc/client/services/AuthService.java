@@ -9,8 +9,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
+import java.util.Timer;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.prefs.Preferences;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.utils.Encryptor;
@@ -18,6 +25,8 @@ import org.main.unimap_pc.client.utils.Encryptor;
 
 public class AuthService {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    private static final Preferences prefs = Preferences.userNodeForPackage(AuthService.class);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public static CompletableFuture<Boolean> login(String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
@@ -51,7 +60,37 @@ public class AuthService {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> {
                     if (response.statusCode() == 200) {
-                        return true;
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            JsonNode jsonNode = objectMapper.readTree(response.body());
+                            JsonNode userNode = jsonNode.get("user");
+                            String accessToken = jsonNode.get("accessToken").asText();
+
+                            String refreshToken = response.headers().firstValue("Set-Cookie")
+                                    .map(cookie -> {
+                                        for (String part : cookie.split(";")) {
+                                            if (part.trim().startsWith("refreshToken=")) {
+                                                return part.substring("refreshToken=".length());
+                                            }
+                                        }
+                                        return null;
+                                    }).orElse(null);
+
+                            if (accessToken != null && refreshToken != null) {
+                                prefs.put("ACCESS_TOKEN", accessToken);
+                                prefs.put("REFRESH_TOKEN", refreshToken);
+                                prefs.put("USER_DATA", userNode.toString());
+                                scheduler.schedule(() -> prefs.remove("USER_DATA"), 30, TimeUnit.MINUTES);
+                              //  System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
+                                return true;
+                            } else {
+                                System.err.println("Tokens not found in the response.");
+                                return false;
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Failed to parse JSON response: " + e.getMessage());
+                            return false;
+                        }
                     } else {
                         System.err.println("Authentication failed with status code: " + response.statusCode());
                         return false;
@@ -61,5 +100,6 @@ public class AuthService {
                     System.err.println("Authentication request failed: " + throwable.getMessage());
                     return false;
                 });
+
     }
 }

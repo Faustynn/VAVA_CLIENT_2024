@@ -199,6 +199,7 @@ public class LogInController {
                         sceneController = new SceneController(currentStage);
                         LoadingScreens.showLoadScreen(currentStage);
                         sceneController.replaceSceneContent(AppConfig.getMainPagePath());
+
                     } catch (IOException e) {
                         System.err.println("Failed to load main page: " + e.getMessage());
                         showErrorDialog("Error loading the application. Please try again later.");
