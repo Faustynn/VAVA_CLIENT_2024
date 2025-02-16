@@ -83,8 +83,10 @@ public class AppConfig {
         return CHANGE_PASSWORD;
     }
 
-    private static final Properties properties = new Properties();
 
+
+
+    private static final Properties properties = new Properties();
     static {
         try (InputStream input = AppConfig.class.getResourceAsStream("/org/main/unimap_pc/config.properties")) {
             if (input == null) {
@@ -95,18 +97,6 @@ public class AppConfig {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static String getAesAlgorithm() {
-        return properties.getProperty("AES_ALGORITHM");
-    }
-
-    public static String getSecretKey() {
-        return properties.getProperty("SECRET_KEY");
-    }
-
-    public static String getIv() {
-        return properties.getProperty("IV");
     }
 
     public static String getOauth2Google() {

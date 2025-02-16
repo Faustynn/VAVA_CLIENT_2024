@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.JSONObject;
 import org.main.unimap_pc.client.configs.AppConfig;
-import org.main.unimap_pc.client.utils.Encryptor;
 
 public class RegistrationService {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
@@ -17,8 +16,9 @@ public class RegistrationService {
     public static CompletableFuture<Boolean> registration(String username, String email, String login, String password, AtomicInteger code) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                String encryptedData = Encryptor.encrypt(username + ":" + email + ":" + login + ":" + password);
-                return sendRegistrationRequest(AppConfig.getRegistrUrl(), encryptedData,code).join();
+                String data = username + ":" + email + ":" + login + ":" + password;
+
+                return sendRegistrationRequest(AppConfig.getRegistrUrl(), data,code).join();
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -33,7 +33,7 @@ public class RegistrationService {
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("data", encryptedData);
-
+        System.out.println(encryptedData);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")

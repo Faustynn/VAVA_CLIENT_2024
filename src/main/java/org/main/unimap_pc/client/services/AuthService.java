@@ -1,15 +1,9 @@
 package org.main.unimap_pc.client.services;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
-import java.util.Timer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,7 +14,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.main.unimap_pc.client.configs.AppConfig;
-import org.main.unimap_pc.client.utils.Encryptor;
 
 
 public class AuthService {
@@ -32,9 +25,9 @@ public class AuthService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                // System.out.println("non encrypted data: " + username + ":" + password);
-                String encryptedData = Encryptor.encrypt(username + ":" + password);
+                String data = username + ":" + password;
                // System.out.println("Encrypted data: " + encryptedData);
-                return sendAuthenticationRequest(AppConfig.getAuthUrl(), encryptedData).join();
+                return sendAuthenticationRequest(AppConfig.getAuthUrl(), data).join();
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;

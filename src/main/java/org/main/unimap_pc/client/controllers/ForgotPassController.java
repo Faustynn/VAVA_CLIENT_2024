@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.EmailService;
-import org.main.unimap_pc.client.utils.Encryptor;
 
 import java.io.IOException;
 import static org.main.unimap_pc.client.configs.AppConfig.getForgotPassPagePath2;
@@ -132,10 +131,9 @@ public class ForgotPassController {
                             }
 
                             try {
-                                String new_password = Encryptor.encrypt(newValue);
                                 fieldCode.setDisable(true);
 
-                                EmailService.updatepassword(url2, new_password, email).thenAccept(result2 -> {
+                                EmailService.updatepassword(url2, newValue, email).thenAccept(result2 -> {
                                     Platform.runLater(() -> {
                                         if (!result2) {
                                             infoMess2.setText("Failed to change password. Please try again.");
