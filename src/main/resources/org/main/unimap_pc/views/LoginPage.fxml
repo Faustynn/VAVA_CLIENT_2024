@@ -71,7 +71,7 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </MFXButton>
-      <MFXButton fx:id="btnFacebook" layoutX="92.0" layoutY="428.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #659ac9; -fx-cursor: hand;" text="Facebook" textFill="WHITE">
+      <MFXButton fx:id="btnFacebook" layoutX="92.0" layoutY="428.0" onMouseClicked="#handleSignByFacebook" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #659ac9; -fx-cursor: hand;" text="Facebook" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>
@@ -79,7 +79,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="FACEBOOK" tabSize="20" wrappingWidth="14.92901611328125" />
          </graphic>
       </MFXButton>
-      <MFXButton fx:id="btnGoogle" layoutX="309.0" layoutY="430.0" onMouseClicked="#handleSignUp" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #c72633; -fx-cursor: hand;" text="Google" textFill="WHITE">
+      <MFXButton fx:id="btnGoogle" layoutX="309.0" layoutY="430.0" onMouseClicked="#handleSignByGoogle" prefHeight="41.0" prefWidth="106.0" style="-fx-background-color: #c72633; -fx-cursor: hand;" text="Google" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

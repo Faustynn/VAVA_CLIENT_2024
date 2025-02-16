@@ -6,6 +6,7 @@ module org.main.unimap_pc {
     requires com.fasterxml.jackson.databind;
     requires org.json;
     requires java.prefs;
+    requires jdk.httpserver;
 
     exports org.main.unimap_pc.client.models; // Экспорт пакет моделей
     exports org.main.unimap_pc.client to javafx.graphics; // Экспорт  MainApp

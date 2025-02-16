@@ -16,7 +16,7 @@ public class Encryptor {
         if (ALGORITHM == null || ALGORITHM.isEmpty()) {
             throw new IllegalArgumentException("Algorithm is null or empty");
         }
-
+    //TODO: добавить соли в хеширование пароля
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");
         IvParameterSpec ivSpec = new IvParameterSpec(IV.getBytes());

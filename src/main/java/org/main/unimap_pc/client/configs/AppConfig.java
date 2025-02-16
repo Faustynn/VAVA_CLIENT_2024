@@ -18,7 +18,6 @@ public class AppConfig {
     private static final String FORGOT_PASS_PAGE_PATH = "/org/main/unimap_pc/views/ForgotPass.fxml";
     private static final String FORGOT_PASS_PAGE_PATH2 = "/org/main/unimap_pc/views/ForgotPass_second.fxml";
     private static final String ERR_PAGE_PATH = "/org/main/unimap_pc/views/ErrorPage.fxml";
-
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
@@ -28,6 +27,8 @@ public class AppConfig {
     private static final String CONFIRM_CODE_TO_EMAIL = API_URL + "user/email/code";
     private static final String CHANGE_PASSWORD = API_URL + "user/email/password";
     private static final String CREATE_USER = API_URL + "user/create";
+    private static final String OAUTH2_GOOGLE = API_URL + "authenticate/google";
+    private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/google";
 
     // Getters
     public static String getLoginPagePath() {
@@ -106,5 +107,13 @@ public class AppConfig {
 
     public static String getIv() {
         return properties.getProperty("IV");
+    }
+
+    public static String getOauth2Google() {
+        return OAUTH2_GOOGLE;
+    }
+
+    public static String getOauth2Facebook() {
+        return OAUTH2_FACEBOOK;
     }
 }

@@ -6,13 +6,19 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.scene.control.Alert.AlertType;
+
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
@@ -21,6 +27,7 @@ import javafx.stage.StageStyle;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.AuthService;
 import org.main.unimap_pc.client.services.RegistrationService;
+import org.main.unimap_pc.client.utils.ErrorScreens;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
 public class LogInController {
@@ -70,17 +77,6 @@ public class LogInController {
     @FXML
     private Button btnSignup;
 
-    @FXML
-    private Label downlApp;
-
-    @FXML
-    private MFXButton btnGoogle;
-
-    @FXML
-    private MFXButton btnFacebook;
-
-    @FXML
-    private AnchorPane mainContentArea;
 
     @Getter
     private static SceneController sceneController;
@@ -212,5 +208,35 @@ public class LogInController {
             Platform.runLater(() -> infoMess.setText("Login request failed. Please try again later."));
             return null;
         });
+    }
+
+
+
+    @FXML
+    private void handleSignByGoogle() {
+        try {
+            String authUrl = AppConfig.getOauth2Google();
+
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(authUrl));
+                return;
+            }
+        } catch (Exception e) {
+            ErrorScreens.showErrorScreen("Failed to open authentication page");
+        }
+    }
+
+    @FXML
+    private void handleSignByFacebook() {
+        try {
+            String authUrl = AppConfig.getOauth2Facebook();
+
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(authUrl));
+                return;
+            }
+        } catch (Exception e) {
+            ErrorScreens.showErrorScreen("Failed to open authentication page");
+        }
     }
 }
