@@ -101,6 +101,7 @@
         <configuration>
           <mainClass>org.main.unimap_pc.client.MainApp</mainClass>
           <arguments>
+            <argument>-Dfile.encoding=UTF-8</argument>
             <argument>--add-opens</argument>
             <argument>org.main.unimap_pc.client.models/org.main.unimap_pc.client.models=ALL-UNNAMED</argument>
           </arguments>
@@ -133,6 +134,17 @@
         </configuration>
       </plugin>
 
+      <!-- Maven Resources Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <propertiesEncoding>UTF-8</propertiesEncoding>
+        </configuration>
+      </plugin>
+
       <!-- Maven Enforcer Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -162,6 +174,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <java.version>21</java.version>
       </properties>

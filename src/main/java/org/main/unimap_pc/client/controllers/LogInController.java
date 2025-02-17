@@ -1,23 +1,26 @@
 package org.main.unimap_pc.client.controllers;
 
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.Getter;
+import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.scene.control.Alert.AlertType;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -26,11 +29,15 @@ import javafx.stage.StageStyle;
 
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.AuthService;
-import org.main.unimap_pc.client.services.RegistrationService;
 import org.main.unimap_pc.client.utils.ErrorScreens;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
+import static org.main.unimap_pc.client.services.AuthService.prefs;
+
 public class LogInController {
+    public Label downlApp;
+    public MFXButton btnFacebook;
+    public MFXButton btnGoogle;
     @FXML
     private Label closeApp;
 
@@ -46,11 +53,69 @@ public class LogInController {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    private static final String DEFAULT_LANGUAGE = "English";
+    private static final String LANGUAGE_KEY = "preferred_language";
+    private ResourceBundle languageBundle;
+
+
+    private static final Map<String, String> LANGUAGE_CODES = Map.of(
+            "English", "en",
+            "Українська", "ua",
+            "Slovenský", "sk"
+    );
+    private static final Map<String, String> RESOURCE_PATHS = Map.of(
+            "en", "org/main/unimap_pc/langs/en",
+            "ua", "org/main/unimap_pc/langs/ua",
+            "sk", "org/main/unimap_pc/langs/sk"
+    );
+
+
     @FXML
     private void initialize() {
+        languageComboBox.getItems().addAll("English", "Українська", "Slovenský");
+        loadCurrentLanguage();
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);
+        updateUILanguage();
     }
+    private void loadCurrentLanguage() {
+        String selectedLanguage = prefs.get(LANGUAGE_KEY, DEFAULT_LANGUAGE);
+        languageComboBox.setValue(selectedLanguage);
+
+        // listener for lang. editing
+        languageComboBox.setOnAction(event -> {
+            String newLanguage = languageComboBox.getValue();
+            prefs.put(LANGUAGE_KEY, newLanguage);
+            updateUILanguage();
+        });
+    }
+    private void updateUILanguage() {
+        String selectedLanguage = languageComboBox.getValue();
+        String languageCode = LANGUAGE_CODES.get(selectedLanguage);
+
+        try {
+            String resourcePath = RESOURCE_PATHS.get(languageCode);
+            languageBundle = ResourceBundle.getBundle(resourcePath, new Locale(languageCode));
+
+            btnSignin.setText(languageBundle.getString("signin.button"));
+            btnSignup.setText(languageBundle.getString("signup.button"));
+            btnForgotPass.setText(languageBundle.getString("forgotpass.button"));
+            fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
+            fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
+            btnGoogle.setText(languageBundle.getString("google.button"));
+            btnFacebook.setText(languageBundle.getString("facebook.button"));
+            downlApp.setText(languageBundle.getString("download.app"));
+            languageComboBox.setText(languageBundle.getString("language.combobox"));
+
+        } catch (Exception e) {
+            showErrorDialog("Error loading language resources: " + e.getMessage());
+            if (!selectedLanguage.equals(DEFAULT_LANGUAGE)) {
+                languageComboBox.setValue(DEFAULT_LANGUAGE);
+                updateUILanguage();
+            }
+        }
+    }
+
     private void handleMousePressed(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
@@ -72,10 +137,9 @@ public class LogInController {
     private Label btnForgotPass;
 
     @FXML
-    private Button btnSignin;
-
+    private MFXButton btnSignin;
     @FXML
-    private Button btnSignup;
+    private MFXButton btnSignup;
 
 
     @Getter
@@ -83,6 +147,9 @@ public class LogInController {
 
     @FXML
     private Label infoMess;
+
+    @FXML
+    private MFXComboBox<String> languageComboBox;
 
     // If click into downlApp label open github page
     @FXML

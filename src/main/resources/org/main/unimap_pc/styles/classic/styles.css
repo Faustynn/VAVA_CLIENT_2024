@@ -1,8 +1,0 @@
-.pointer-cursor {
-    -fx-cursor: pointer;
-}
-
-.error-text {
-    -fx-font-size: 14px;
-    -fx-text-fill: red;
-}

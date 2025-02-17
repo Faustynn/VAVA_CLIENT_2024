@@ -2,9 +2,10 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -53,7 +54,7 @@
       </Label>
       <FontAwesomeIcon fill="#0d232f" glyphName="USERS" layoutX="33.0" layoutY="237.0" size="25" />
       <FontAwesomeIcon fill="#0d2330" glyphName="LOCK" layoutX="39.0" layoutY="299.0" size="25" />
-      <FontAwesomeIcon fill="#8a8a8a" glyphName="DOWNLOAD" layoutX="367.0" layoutY="583.0" size="15" />
+      <FontAwesomeIcon fill="#8a8a8a" glyphName="DOWNLOAD" layoutX="362.0" layoutY="583.0" size="15" />
       <Label layoutX="188.0" layoutY="493.0" text="Don't have an account?" textFill="#4d4d4d" />
       <MFXTextField fx:id="fieldUsername" borderGap="0.0" floatingText="Login / Email" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="73.0" layoutY="205.0" maxHeight="41.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your login or email">
          <font>
@@ -87,7 +88,13 @@
             <FontAwesomeIcon fill="WHITE" glyphName="GOOGLE" wrappingWidth="16.048017501831055" />
          </graphic>
       </MFXButton>
-      <MFXLegacyComboBox layoutX="386.0" layoutY="17.0" promptText="Language" unfocusedLineColor="#36436f" />
+
+      <MFXComboBox fx:id="languageComboBox" accessibleRole="TEXT" alignment="CENTER" borderGap="0.0" caretVisible="false" floatMode="DISABLED" floatingText="0" floatingTextGap="0.0" graphicTextGap="0.0" layoutX="379.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" measureUnitGap="0.0" minHeight="-Infinity" minWidth="-Infinity" popupOffsetY="0.0" prefColumnCount="3" prefHeight="25.0" prefWidth="105.0" text="Language">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></MFXComboBox>
+
+
       <Label fx:id="infoMess" layoutX="151.0" layoutY="175.0" textFill="#cd1d2c">
          <font>
             <Font name="Roboto Bold Italic" size="14.0" />

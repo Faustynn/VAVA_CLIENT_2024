@@ -18,7 +18,7 @@ import org.main.unimap_pc.client.configs.AppConfig;
 
 public class AuthService {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
-    private static final Preferences prefs = Preferences.userNodeForPackage(AuthService.class);
+    public static final Preferences prefs = Preferences.userNodeForPackage(AuthService.class);
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public static CompletableFuture<Boolean> login(String username, String password) {
