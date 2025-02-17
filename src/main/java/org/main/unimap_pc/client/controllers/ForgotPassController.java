@@ -14,12 +14,16 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.EmailService;
+import org.main.unimap_pc.client.utils.LanguageManager;
+import org.main.unimap_pc.client.utils.LanguageSupport;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
+
 import static org.main.unimap_pc.client.configs.AppConfig.getForgotPassPagePath2;
 import static org.main.unimap_pc.client.controllers.LogInController.showErrorDialog;
 
-public class ForgotPassController {
+public class ForgotPassController implements LanguageSupport {
     @FXML
     private Label closeApp;
 
@@ -44,6 +48,9 @@ public class ForgotPassController {
     @Setter
     private String email;
 
+    @FXML
+    private Label reset_text;
+
 
     @FXML
     private void handleCloseApp() {
@@ -55,12 +62,34 @@ public class ForgotPassController {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    @Override
+    public void updateUILanguage(ResourceBundle languageBundle) {
+        btnSendMail.setText(languageBundle.getString("send"));
+        fieldEmail.setPromptText(languageBundle.getString("email"));
+        if (fieldCode != null) {
+            fieldCode.setPromptText(languageBundle.getString("code"));
+        }
+        reset_text.setText(languageBundle.getString("reset.text"));
+        btnSendMail.setText(languageBundle.getString("send"));
+        if (fieldCode != null) {
+            fieldCode.setPromptText(languageBundle.getString("code.prompt"));
+        }
+    }
+
     @FXML
     private void initialize() {
+        String lang;
+        LanguageManager.getInstance().registerController(this);
+
+        if(LanguageManager.getInstance().getCachedLanguage() != null){
+            lang = LanguageManager.getInstance().getCachedLanguage();
+        }else{lang = "en";}
+        LanguageManager.getInstance().changeLanguage(lang);
+        updateUILanguage(LanguageManager.getInstance().getCurrentBundle());
+
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);
     }
-
     private void handleMousePressed(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();

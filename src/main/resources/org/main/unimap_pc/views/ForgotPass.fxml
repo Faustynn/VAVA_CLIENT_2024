@@ -32,12 +32,12 @@
         </AnchorPane>
         <AnchorPane layoutY="83.0" prefHeight="419.0" prefWidth="350.0">
             <children>
-                <Label layoutX="55.0" layoutY="14.0" prefHeight="44.0" prefWidth="250.0" text="Reset Password">
+                <Label fx:id="reset_text" layoutX="68.0" layoutY="29.0" prefHeight="44.0" prefWidth="250.0" text="Reset Password">
                     <font>
-                        <Font name="System Bold" size="36.0" />
+                        <Font name="System Bold" size="32.0" />
                     </font>
                 </Label>
-            <MFXButton layoutX="142.0" layoutY="129.0" onMouseClicked="#SendMailbtn" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Send" textFill="WHITE">
+            <MFXButton fx:id="btnSendMail" layoutX="124.0" layoutY="129.0" onMouseClicked="#SendMailbtn" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Send" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font></MFXButton>

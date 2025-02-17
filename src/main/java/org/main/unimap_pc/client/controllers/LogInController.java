@@ -5,6 +5,7 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -30,11 +31,13 @@ import javafx.stage.StageStyle;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.services.AuthService;
 import org.main.unimap_pc.client.utils.ErrorScreens;
+import org.main.unimap_pc.client.utils.LanguageManager;
+import org.main.unimap_pc.client.utils.LanguageSupport;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
 import static org.main.unimap_pc.client.services.AuthService.prefs;
 
-public class LogInController {
+public class LogInController implements LanguageSupport {
     public Label downlApp;
     public MFXButton btnFacebook;
     public MFXButton btnGoogle;
@@ -45,6 +48,15 @@ public class LogInController {
     private AnchorPane dragArea;
 
     @FXML
+    private Label madeby;
+
+    @FXML
+    private Label dontHaveAcc;
+
+    @FXML
+    private Label or;
+
+    @FXML
     private void handleCloseApp() {
         Stage stage = (Stage) closeApp.getScene().getWindow();
         stage.close();
@@ -53,69 +65,63 @@ public class LogInController {
     private double xOffset = 0;
     private double yOffset = 0;
 
-    private static final String DEFAULT_LANGUAGE = "English";
-    private static final String LANGUAGE_KEY = "preferred_language";
-    private ResourceBundle languageBundle;
 
-
-    private static final Map<String, String> LANGUAGE_CODES = Map.of(
-            "English", "en",
-            "Українська", "ua",
-            "Slovenský", "sk"
-    );
-    private static final Map<String, String> RESOURCE_PATHS = Map.of(
-            "en", "org/main/unimap_pc/langs/en",
-            "ua", "org/main/unimap_pc/langs/ua",
-            "sk", "org/main/unimap_pc/langs/sk"
-    );
 
 
     @FXML
     private void initialize() {
         languageComboBox.getItems().addAll("English", "Українська", "Slovenský");
+        LanguageManager.getInstance().registerController(this);
+        LanguageManager.getInstance().putCachedLanguage(AppConfig.getDEFAULT_LANGUAGE());
         loadCurrentLanguage();
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);
         updateUILanguage();
     }
     private void loadCurrentLanguage() {
-        String selectedLanguage = prefs.get(LANGUAGE_KEY, DEFAULT_LANGUAGE);
+        String selectedLanguage = prefs.get(AppConfig.getLANGUAGE_KEY(), AppConfig.getDEFAULT_LANGUAGE());
         languageComboBox.setValue(selectedLanguage);
 
         // listener for lang. editing
         languageComboBox.setOnAction(event -> {
             String newLanguage = languageComboBox.getValue();
-            prefs.put(LANGUAGE_KEY, newLanguage);
-            updateUILanguage();
+            prefs.put(AppConfig.getLANGUAGE_KEY(), newLanguage);
+            LanguageManager.getInstance().changeLanguage(AppConfig.getLANGUAGE_CODES().get(newLanguage));
+            LanguageManager.getInstance().putCachedLanguage(newLanguage);
         });
+    }
+    @Override
+    public void updateUILanguage(ResourceBundle languageBundle) {
+        btnSignin.setText(languageBundle.getString("signin.button"));
+        btnSignup.setText(languageBundle.getString("signup.button"));
+        btnForgotPass.setText(languageBundle.getString("forgotpass.button"));
+        fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
+        fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
+        btnGoogle.setText(languageBundle.getString("google.button"));
+        btnFacebook.setText(languageBundle.getString("facebook.button"));
+        downlApp.setText(languageBundle.getString("download.app"));
+        languageComboBox.setText(languageBundle.getString("language.combobox"));
+        closeApp.setText(languageBundle.getString("close"));
+        madeby.setText(languageBundle.getString("madeby"));
+        dontHaveAcc.setText(languageBundle.getString("dont.have.account"));
+        or.setText(languageBundle.getString("or"));
     }
     private void updateUILanguage() {
         String selectedLanguage = languageComboBox.getValue();
-        String languageCode = LANGUAGE_CODES.get(selectedLanguage);
+        String languageCode = AppConfig.getLANGUAGE_CODES().get(selectedLanguage);
 
         try {
-            String resourcePath = RESOURCE_PATHS.get(languageCode);
-            languageBundle = ResourceBundle.getBundle(resourcePath, new Locale(languageCode));
-
-            btnSignin.setText(languageBundle.getString("signin.button"));
-            btnSignup.setText(languageBundle.getString("signup.button"));
-            btnForgotPass.setText(languageBundle.getString("forgotpass.button"));
-            fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
-            fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
-            btnGoogle.setText(languageBundle.getString("google.button"));
-            btnFacebook.setText(languageBundle.getString("facebook.button"));
-            downlApp.setText(languageBundle.getString("download.app"));
-            languageComboBox.setText(languageBundle.getString("language.combobox"));
-
+            String resourcePath = AppConfig.getRESOURCE_PATHS().get(languageCode);
+            ResourceBundle languageBundle = ResourceBundle.getBundle(resourcePath, new Locale(languageCode));
+            updateUILanguage(languageBundle);
         } catch (Exception e) {
             showErrorDialog("Error loading language resources: " + e.getMessage());
-            if (!selectedLanguage.equals(DEFAULT_LANGUAGE)) {
-                languageComboBox.setValue(DEFAULT_LANGUAGE);
+            if (!selectedLanguage.equals(AppConfig.getDEFAULT_LANGUAGE())) {
+                languageComboBox.setValue(AppConfig.getDEFAULT_LANGUAGE());
                 updateUILanguage();
             }
         }
     }
-
     private void handleMousePressed(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
@@ -176,7 +182,9 @@ public class LogInController {
     private void openModalWindow(String fxmlPath, String windowTitle, String errorMessage) {
         try {
             Stage parentStage = (Stage) ((Node) (windowTitle.equals("Forgot Password") ? btnForgotPass : btnSignup)).getScene().getWindow();
-            AnchorPane modalPane = LoadingScreens.loadFXML(fxmlPath);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            loader.setResources(LanguageManager.getInstance().getCurrentBundle());
+            AnchorPane modalPane = loader.load();
 
             Scene modalScene = new Scene(modalPane);
             Stage modalStage = new Stage();

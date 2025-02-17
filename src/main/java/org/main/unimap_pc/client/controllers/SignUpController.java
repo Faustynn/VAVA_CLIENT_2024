@@ -9,12 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lombok.Getter;
 import org.main.unimap_pc.client.services.RegistrationService;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.main.unimap_pc.client.utils.LanguageManager;
+import org.main.unimap_pc.client.utils.LanguageSupport;
 
-public class SignUpController {
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.PropertyResourceBundle;
+
+public class SignUpController implements LanguageSupport {
     @FXML
     private Label closeApp;
 
@@ -31,8 +34,29 @@ public class SignUpController {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    @Override
+    public void updateUILanguage(ResourceBundle languageBundle) {
+        closeApp.setText(languageBundle.getString("close"));
+        infoMess.setText(languageBundle.getString("info.message"));
+        btnRegistr.setText(languageBundle.getString("register.button"));
+        fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
+        fieldEmail.setPromptText(languageBundle.getString("email.prompt"));
+        fieldLogin.setPromptText(languageBundle.getString("login.prompt"));
+        fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
+        fieldControlPassword.setPromptText(languageBundle.getString("confirm.password.prompt"));
+    }
     @FXML
     private void initialize() {
+        String lang;
+        LanguageManager.getInstance().registerController(this);
+
+        if(LanguageManager.getInstance().getCachedLanguage() != null){
+            lang = LanguageManager.getInstance().getCachedLanguage();
+        }else{lang = "en";}
+        LanguageManager.getInstance().changeLanguage(lang);
+        updateUILanguage(LanguageManager.getInstance().getCurrentBundle());
+
+
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);
     }
@@ -65,12 +89,9 @@ public class SignUpController {
     @FXML
     private Button btnRegistr;
 
-    @Getter
-    private static SceneController sceneController;
-
 
     @FXML
-    private void handleRegisterBtn() throws IOException {
+    private void handleRegisterBtn(){
         if (fieldLogin.getText().isEmpty()) {
             infoMess.setText("Please enter your login!");
             return;
@@ -97,7 +118,7 @@ public class SignUpController {
         if (fieldPassword.getText().isEmpty()) {
             infoMess.setText("Please enter your password!");
             return;
-        }else if (fieldPassword.getText().length() < 1) {
+        }else if (fieldPassword.getText().isEmpty()) {
             infoMess.setText("Write minimal 8 characters!");
             return;
         }else if(fieldPassword.getText().contains(" ")) {

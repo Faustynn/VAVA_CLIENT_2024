@@ -1,8 +1,11 @@
 package org.main.unimap_pc.client.configs;
 
+import lombok.Getter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 
 public class AppConfig {
@@ -83,6 +86,24 @@ public class AppConfig {
         return CHANGE_PASSWORD;
     }
 
+
+    @Getter
+    private static final String DEFAULT_LANGUAGE = "English";
+    @Getter
+    private static final String LANGUAGE_KEY = "preferred_language";
+
+    @Getter
+    private static final Map<String, String> LANGUAGE_CODES = Map.of(
+            "English", "en",
+            "Українська", "ua",
+            "Slovenský", "sk"
+    );
+    @Getter
+    private static final Map<String, String> RESOURCE_PATHS = Map.of(
+            "en", "org/main/unimap_pc/langs/en",
+            "ua", "org/main/unimap_pc/langs/ua",
+            "sk", "org/main/unimap_pc/langs/sk"
+    );
 
 
 

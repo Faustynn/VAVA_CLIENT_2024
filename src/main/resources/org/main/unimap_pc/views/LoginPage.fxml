@@ -23,7 +23,7 @@
             <Font name="Rockwell" size="70.0" />
          </font>
       </Label>
-      <Label layoutX="11.0" layoutY="575.0" text="Design by Faustynn" textFill="WHITE">
+      <Label fx:id="madeby" layoutX="11.0" layoutY="575.0" text="Design by Faustynn" textFill="WHITE">
          <font>
             <Font name="Andale Mono" size="13.0" />
          </font>
@@ -41,12 +41,12 @@
    </AnchorPane>
    <AnchorPane layoutX="500.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
       <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: hand;" text="Forgot your password?" textFill="#4d4d4d" />
-      <Label layoutX="243.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
+      <Label fx:id="or" layoutX="239.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
       <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="113.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/stu_logo.png" />
       </ImageView>
-      <Separator layoutX="43.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
-      <Separator layoutX="267.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+      <Separator layoutX="29.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
+      <Separator layoutX="281.0" layoutY="398.0" prefHeight="17.0" prefWidth="190.0" />
       <Label fx:id="downlApp" layoutX="378.0" layoutY="571.0" onMouseClicked="#handleDownlApp" style="-fx-cursor: hand;" text=" Download App">
          <font>
             <Font name="Andale Mono" size="13.0" />
@@ -55,7 +55,7 @@
       <FontAwesomeIcon fill="#0d232f" glyphName="USERS" layoutX="33.0" layoutY="237.0" size="25" />
       <FontAwesomeIcon fill="#0d2330" glyphName="LOCK" layoutX="39.0" layoutY="299.0" size="25" />
       <FontAwesomeIcon fill="#8a8a8a" glyphName="DOWNLOAD" layoutX="362.0" layoutY="583.0" size="15" />
-      <Label layoutX="188.0" layoutY="493.0" text="Don't have an account?" textFill="#4d4d4d" />
+      <Label fx:id="dontHaveAcc" layoutX="177.0" layoutY="493.0" text="Don't have an account?" textFill="#4d4d4d" />
       <MFXTextField fx:id="fieldUsername" borderGap="0.0" floatingText="Login / Email" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="73.0" layoutY="205.0" maxHeight="41.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your login or email">
          <font>
             <Font name="Arial" size="13.0" />
