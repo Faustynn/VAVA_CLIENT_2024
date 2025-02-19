@@ -96,7 +96,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="logoutbtn" graphicTextGap="8.0" layoutX="99.0" layoutY="819.0" prefHeight="70.0" prefWidth="180.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #be1d00; -fx-border-color: #36436F;" styleClass="" text="Logout" textFill="WHITE">
+                  <MFXButton fx:id="logoutbtn" graphicTextGap="8.0" layoutX="99.0" layoutY="819.0" onAction="#handleLogout" prefHeight="70.0" prefWidth="180.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #be1d00; -fx-border-color: #36436F;" styleClass="" text="Logout" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="22.0" />
                      </font>

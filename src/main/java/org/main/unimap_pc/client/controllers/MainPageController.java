@@ -1,5 +1,7 @@
 package org.main.unimap_pc.client.controllers;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -9,6 +11,8 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -16,19 +20,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.utils.LanguageManager;
 import org.main.unimap_pc.client.utils.LanguageSupport;
 
+import static org.main.unimap_pc.client.controllers.LogInController.showErrorDialog;
+import static org.main.unimap_pc.client.services.AuthService.prefs;
+
 
 public class MainPageController implements LanguageSupport {
-    @FXML
-    private Label closeApp;
-    @FXML
-    private void handleCloseApp() {
-        Stage stage = (Stage) closeApp.getScene().getWindow();
-        stage.close();
-        System.exit(0);
-    }
 
     @FXML
     private AnchorPane dragArea;
@@ -57,8 +57,9 @@ public class MainPageController implements LanguageSupport {
 
     @FXML
     private void initialize() {
-        Preferences prefs = Preferences.userNodeForPackage(MainPageController.class);
         try {
+            languageComboBox.getItems().addAll("English", "Українська", "Slovenský");
+            loadCurrentLanguage();
             accessToken = prefs.get("ACCESS_TOKEN", null);
             refreshToken = prefs.get("REFRESH_TOKEN", null);
             userData = prefs.get("USER_DATA", null);
@@ -66,9 +67,9 @@ public class MainPageController implements LanguageSupport {
 
             LanguageManager.changeLanguage(cachedLanguage);
             LanguageManager.getInstance().registerController(this);
-         //   updateUILanguage(LanguageManager.getCurrentBundle());
+            updateUILanguage(LanguageManager.getCurrentBundle());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         dragArea.setOnMousePressed(this::handleMousePressed);
@@ -85,8 +86,42 @@ public class MainPageController implements LanguageSupport {
         }
     }
 
+    private void loadCurrentLanguage() {
+        String selectedLanguage = prefs.get(AppConfig.getLANGUAGE_KEY(), AppConfig.getDEFAULT_LANGUAGE());
+        languageComboBox.setValue(selectedLanguage);
+
+        // listener for lang. editing
+        languageComboBox.setOnAction(event -> {
+            try {
+                String newLanguage = (String) languageComboBox.getValue();
+                String languageCode = AppConfig.getLANGUAGE_CODES().get(newLanguage);
+                LanguageManager.changeLanguage(languageCode);
+                updateUILanguage(LanguageManager.getCurrentBundle());
+            } catch (Exception e) {
+                showErrorDialog("Error changing language: " + e.getMessage());
+                loadCurrentLanguage();
+            }
+        });
+    }
+
+
     @FXML
     private MFXButton logoutbtn;
+    @FXML
+    private void handleLogout() throws IOException {
+        // Clear the user data
+        Preferences prefs = Preferences.userNodeForPackage(MainPageController.class);
+        prefs.remove("ACCESS_TOKEN");
+        prefs.remove("REFRESH_TOKEN");
+        prefs.remove("USER_DATA");
+        // Change scene to login
+        Stage stage = (Stage) logoutbtn.getScene().getWindow();
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(AppConfig.getLoginPagePath())));
+        Scene mainScene = new Scene(root);
+        stage.setScene(mainScene);
+        stage.show();
+    }
+
     @FXML
     private MFXToggleButton viewmode;
     @FXML
@@ -120,7 +155,6 @@ public class MainPageController implements LanguageSupport {
 
     @Override
     public void updateUILanguage(ResourceBundle languageBundle) {
-        closeApp.setText(languageBundle.getString("close"));
         logoutbtn.setText(languageBundle.getString("logout"));
 
         btn_homepage.setText(languageBundle.getString("homepage"));
@@ -138,6 +172,7 @@ public class MainPageController implements LanguageSupport {
         descriptFIITTelegram.setText(languageBundle.getString("descriptFIITTelegram"));
         buycoffe.setText(languageBundle.getString("buycoffe"));
 
+        languageComboBox.setText(languageBundle.getString("language.combobox"));
         navi_login_text.setText(languageBundle.getString("login"));
         navi_username_text.setText(languageBundle.getString("username"));
 

@@ -276,6 +276,7 @@ public class LogInController implements LanguageSupport {
         AuthService.login(username, password).thenAccept(isLoginSuccessful -> Platform.runLater(() -> {
             if (isLoginSuccessful) {
                 try {
+               //     prefs.put("LANGUAGE", languageComboBox.getValue());
                     Stage currentStage = (Stage) btnSignin.getScene().getWindow();
                     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(AppConfig.getMainPagePath())));
                     Scene mainScene = new Scene(root);
