@@ -6,20 +6,19 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lombok.Getter;
-import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.scene.control.Alert.AlertType;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Locale;
 
@@ -33,7 +32,6 @@ import org.main.unimap_pc.client.services.AuthService;
 import org.main.unimap_pc.client.utils.ErrorScreens;
 import org.main.unimap_pc.client.utils.LanguageManager;
 import org.main.unimap_pc.client.utils.LanguageSupport;
-import org.main.unimap_pc.client.utils.LoadingScreens;
 
 import static org.main.unimap_pc.client.services.AuthService.prefs;
 
@@ -60,6 +58,7 @@ public class LogInController implements LanguageSupport {
     private void handleCloseApp() {
         Stage stage = (Stage) closeApp.getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 
     private double xOffset = 0;
@@ -71,12 +70,10 @@ public class LogInController implements LanguageSupport {
     @FXML
     private void initialize() {
         languageComboBox.getItems().addAll("English", "Українська", "Slovenský");
-        LanguageManager.getInstance().registerController(this);
-        LanguageManager.getInstance().putCachedLanguage(AppConfig.getDEFAULT_LANGUAGE());
         loadCurrentLanguage();
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);
-        updateUILanguage();
+        LanguageManager.getInstance().registerController(this);
     }
     private void loadCurrentLanguage() {
         String selectedLanguage = prefs.get(AppConfig.getLANGUAGE_KEY(), AppConfig.getDEFAULT_LANGUAGE());
@@ -84,42 +81,35 @@ public class LogInController implements LanguageSupport {
 
         // listener for lang. editing
         languageComboBox.setOnAction(event -> {
-            String newLanguage = languageComboBox.getValue();
-            prefs.put(AppConfig.getLANGUAGE_KEY(), newLanguage);
-            LanguageManager.getInstance().changeLanguage(AppConfig.getLANGUAGE_CODES().get(newLanguage));
-            LanguageManager.getInstance().putCachedLanguage(newLanguage);
+            try {
+                String newLanguage = languageComboBox.getValue();
+                String languageCode = AppConfig.getLANGUAGE_CODES().get(newLanguage);
+                LanguageManager.changeLanguage(languageCode);
+                updateUILanguage(LanguageManager.getCurrentBundle());
+            } catch (Exception e) {
+                showErrorDialog("Error changing language: " + e.getMessage());
+                loadCurrentLanguage();
+            }
         });
     }
     @Override
     public void updateUILanguage(ResourceBundle languageBundle) {
-        btnSignin.setText(languageBundle.getString("signin.button"));
-        btnSignup.setText(languageBundle.getString("signup.button"));
-        btnForgotPass.setText(languageBundle.getString("forgotpass.button"));
-        fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
-        fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
-        btnGoogle.setText(languageBundle.getString("google.button"));
-        btnFacebook.setText(languageBundle.getString("facebook.button"));
-        downlApp.setText(languageBundle.getString("download.app"));
-        languageComboBox.setText(languageBundle.getString("language.combobox"));
-        closeApp.setText(languageBundle.getString("close"));
-        madeby.setText(languageBundle.getString("madeby"));
-        dontHaveAcc.setText(languageBundle.getString("dont.have.account"));
-        or.setText(languageBundle.getString("or"));
-    }
-    private void updateUILanguage() {
-        String selectedLanguage = languageComboBox.getValue();
-        String languageCode = AppConfig.getLANGUAGE_CODES().get(selectedLanguage);
-
         try {
-            String resourcePath = AppConfig.getRESOURCE_PATHS().get(languageCode);
-            ResourceBundle languageBundle = ResourceBundle.getBundle(resourcePath, new Locale(languageCode));
-            updateUILanguage(languageBundle);
+            btnSignin.setText(languageBundle.getString("signin.button"));
+            btnSignup.setText(languageBundle.getString("signup.button"));
+            btnForgotPass.setText(languageBundle.getString("forgotpass.button"));
+            fieldUsername.setPromptText(languageBundle.getString("username.prompt"));
+            fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
+            btnGoogle.setText(languageBundle.getString("google.button"));
+            btnFacebook.setText(languageBundle.getString("facebook.button"));
+            downlApp.setText(languageBundle.getString("download.app"));
+            languageComboBox.setText(languageBundle.getString("language.combobox"));
+            closeApp.setText(languageBundle.getString("close"));
+            madeby.setText(languageBundle.getString("madeby"));
+            dontHaveAcc.setText(languageBundle.getString("dont.have.account"));
+            or.setText(languageBundle.getString("or"));
         } catch (Exception e) {
-            showErrorDialog("Error loading language resources: " + e.getMessage());
-            if (!selectedLanguage.equals(AppConfig.getDEFAULT_LANGUAGE())) {
-                languageComboBox.setValue(AppConfig.getDEFAULT_LANGUAGE());
-                updateUILanguage();
-            }
+            System.err.println("Error updating UI language: " + e.getMessage());
         }
     }
     private void handleMousePressed(MouseEvent event) {
@@ -147,9 +137,6 @@ public class LogInController implements LanguageSupport {
     @FXML
     private MFXButton btnSignup;
 
-
-    @Getter
-    private static SceneController sceneController;
 
     @FXML
     private Label infoMess;
@@ -181,40 +168,61 @@ public class LogInController implements LanguageSupport {
     @FXML
     private void openModalWindow(String fxmlPath, String windowTitle, String errorMessage) {
         try {
-            Stage parentStage = (Stage) ((Node) (windowTitle.equals("Forgot Password") ? btnForgotPass : btnSignup)).getScene().getWindow();
+            Stage parentStage = (Stage) (windowTitle.equals("Forgot Password") ? btnForgotPass : btnSignup).getScene().getWindow();
+
+            // Проверяем, существует ли ресурс
+            if (getClass().getResource(fxmlPath) == null) {
+                showErrorDialog("Resource not found: " + fxmlPath);
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            loader.setResources(LanguageManager.getInstance().getCurrentBundle());
-            AnchorPane modalPane = loader.load();
 
-            Scene modalScene = new Scene(modalPane);
-            Stage modalStage = new Stage();
+            // Устанавливаем ресурсный бандл, если он доступен
+            if (LanguageManager.getCurrentBundle() != null) {
+                loader.setResources(LanguageManager.getCurrentBundle());
+            }
 
-            // Configure modal stage
-            modalStage.initStyle(StageStyle.TRANSPARENT);
-            modalStage.initModality(Modality.WINDOW_MODAL);
-            modalStage.initOwner(parentStage);
-            modalStage.setTitle(windowTitle);
+            try {
+                AnchorPane modalPane = loader.load();
 
-            modalStage.setScene(modalScene);
+                Scene modalScene = new Scene(modalPane);
+                Stage modalStage = new Stage();
 
-            // Create overlay for parent stage
-            StackPane overlay = createOverlay(parentStage);
+                // Configure modal stage
+                modalStage.initStyle(StageStyle.TRANSPARENT);
+                modalStage.initModality(Modality.WINDOW_MODAL);
+                modalStage.initOwner(parentStage);
+                modalStage.setTitle(windowTitle);
 
-            // Add overlay to parent scene
-            Scene parentScene = parentStage.getScene();
-            AnchorPane parentRoot = (AnchorPane) parentScene.getRoot();
-            parentRoot.getChildren().add(overlay);
+                modalStage.setScene(modalScene);
 
-            // Remove overlay when modal stage is closed
-            modalStage.setOnHidden(event -> parentRoot.getChildren().remove(overlay));
+                // Create overlay for parent stage
+                StackPane overlay = createOverlay(parentStage);
 
-            // Show and wait
-            modalStage.showAndWait();
+                // Add overlay to parent scene
+                Scene parentScene = parentStage.getScene();
+                AnchorPane parentRoot = (AnchorPane) parentScene.getRoot();
+                parentRoot.getChildren().add(overlay);
 
-        } catch (IOException e) {
+                // Remove overlay when modal stage is closed
+                modalStage.setOnHidden(event -> parentRoot.getChildren().remove(overlay));
+
+                // Show and wait
+                modalStage.showAndWait();
+
+            } catch (IOException e) {
+                System.err.println("Failed to load FXML from path: " + fxmlPath);
+                e.printStackTrace();
+                showErrorDialog(errorMessage + ": " + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.err.println("Unexpected error in openModalWindow");
+            e.printStackTrace();
             showErrorDialog(errorMessage + ": " + e.getMessage());
         }
     }
+
     // Helper method to create overlay
     private StackPane createOverlay(Stage parentStage) {
         StackPane overlay = new StackPane();
@@ -222,9 +230,7 @@ public class LogInController implements LanguageSupport {
         overlay.setPrefSize(parentStage.getWidth(), parentStage.getHeight());
 
         // Block main screen and play system sound on click
-        overlay.setOnMouseClicked(event -> {
-            java.awt.Toolkit.getDefaultToolkit().beep();
-        });
+        overlay.setOnMouseClicked(event -> Toolkit.getDefaultToolkit().beep());
 
         return overlay;
     }
@@ -241,11 +247,16 @@ public class LogInController implements LanguageSupport {
 
     @FXML
     private void handleSignUp() {
-        openModalWindow(
-                AppConfig.getSignupPagePath(),
-                "Sign Up",
-                "Error loading the sign up window"
-        );
+        try {
+            openModalWindow(
+                    AppConfig.getSignupPagePath(),
+                    "Sign Up",
+                    "Error loading the sign up window"
+            );
+        } catch (Exception e) {
+            System.err.println("Error loading SignUpPage.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -262,24 +273,23 @@ public class LogInController implements LanguageSupport {
             return;
         }
 
-        AuthService.login(username, password).thenAccept(isLoginSuccessful -> {
-            Platform.runLater(() -> {
-                if (isLoginSuccessful) {
-                    try {
-                        Stage currentStage = (Stage) btnSignin.getScene().getWindow();
-                        sceneController = new SceneController(currentStage);
-                        LoadingScreens.showLoadScreen(currentStage);
-                        sceneController.replaceSceneContent(AppConfig.getMainPagePath());
-
-                    } catch (IOException e) {
-                        System.err.println("Failed to load main page: " + e.getMessage());
-                        showErrorDialog("Error loading the application. Please try again later.");
-                    }
-                } else {
-                    infoMess.setText("Invalid username or password!");
+        AuthService.login(username, password).thenAccept(isLoginSuccessful -> Platform.runLater(() -> {
+            if (isLoginSuccessful) {
+                try {
+                    Stage currentStage = (Stage) btnSignin.getScene().getWindow();
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(AppConfig.getMainPagePath())));
+                    Scene mainScene = new Scene(root);
+                    currentStage.setScene(mainScene);
+                    currentStage.setFullScreen(true);
+                    currentStage.show();
+                } catch (IOException e) {
+                    System.err.println("Failed to load main page: " + e.getMessage());
+                    showErrorDialog("Error loading the application. Please try again later.");
                 }
-            });
-        }).exceptionally(ex -> {
+            } else {
+                infoMess.setText("Invalid username or password!");
+            }
+        })).exceptionally(ex -> {
             Platform.runLater(() -> infoMess.setText("Login request failed. Please try again later."));
             return null;
         });
@@ -294,7 +304,6 @@ public class LogInController implements LanguageSupport {
 
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(authUrl));
-                return;
             }
         } catch (Exception e) {
             ErrorScreens.showErrorScreen("Failed to open authentication page");
@@ -308,7 +317,6 @@ public class LogInController implements LanguageSupport {
 
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(authUrl));
-                return;
             }
         } catch (Exception e) {
             ErrorScreens.showErrorScreen("Failed to open authentication page");

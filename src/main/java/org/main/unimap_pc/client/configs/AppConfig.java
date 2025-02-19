@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
@@ -20,7 +19,6 @@ public class AppConfig {
     private static final String SIGNUP_PAGE_PATH = "/org/main/unimap_pc/views/SignUpPage.fxml";
     private static final String FORGOT_PASS_PAGE_PATH = "/org/main/unimap_pc/views/ForgotPass.fxml";
     private static final String FORGOT_PASS_PAGE_PATH2 = "/org/main/unimap_pc/views/ForgotPass_second.fxml";
-    private static final String ERR_PAGE_PATH = "/org/main/unimap_pc/views/ErrorPage.fxml";
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
@@ -29,7 +27,6 @@ public class AppConfig {
     private static final String FIND_USER_BY_EMAIL_URL = API_URL + "user/email/";
     private static final String CONFIRM_CODE_TO_EMAIL = API_URL + "user/email/code";
     private static final String CHANGE_PASSWORD = API_URL + "user/email/password";
-    private static final String CREATE_USER = API_URL + "user/create";
     private static final String OAUTH2_GOOGLE = API_URL + "authenticate/google";
     private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/google";
 
@@ -46,9 +43,6 @@ public class AppConfig {
     public static String getForgotPassPagePath() {
         return FORGOT_PASS_PAGE_PATH;
     }
-    public static String getErrPagePath() {
-        return ERR_PAGE_PATH;
-    }
     public static String getCheckConnectionUrl() {
         return CHECK_CONNECTION_URL;
     }
@@ -58,17 +52,11 @@ public class AppConfig {
     public static String getFindUserByEmailUrl() {
         return FIND_USER_BY_EMAIL_URL;
     }
-    public static String getApiUrl() {
-        return API_URL;
-    }
     public static String getAppTitle() {
         return APP_TITLE;
     }
     public static String getIconPath() {
         return ICON_PATH;
-    }
-    public static String getCreateUser() {
-        return CREATE_USER;
     }
     public static String getGithubPage() {
         return GIT_HUB;

@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.PropertyResourceBundle;
 
+import static org.main.unimap_pc.client.services.AuthService.prefs;
+
 public class SignUpController implements LanguageSupport {
     @FXML
     private Label closeApp;
@@ -29,7 +31,8 @@ public class SignUpController implements LanguageSupport {
         Stage stage = (Stage) closeApp.getScene().getWindow();
         stage.close();
     }
-
+    @FXML
+    private Label userRegistr;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -44,18 +47,15 @@ public class SignUpController implements LanguageSupport {
         fieldLogin.setPromptText(languageBundle.getString("login.prompt"));
         fieldPassword.setPromptText(languageBundle.getString("password.prompt"));
         fieldControlPassword.setPromptText(languageBundle.getString("confirm.password.prompt"));
+        userRegistr.setText(languageBundle.getString("user.reg"));
     }
     @FXML
     private void initialize() {
-        String lang;
+        String lang = prefs.get("LANGUAGE", "en");
         LanguageManager.getInstance().registerController(this);
 
-        if(LanguageManager.getInstance().getCachedLanguage() != null){
-            lang = LanguageManager.getInstance().getCachedLanguage();
-        }else{lang = "en";}
-        LanguageManager.getInstance().changeLanguage(lang);
-        updateUILanguage(LanguageManager.getInstance().getCurrentBundle());
-
+        LanguageManager.changeLanguage(lang);
+        updateUILanguage(LanguageManager.getCurrentBundle());
 
         dragArea.setOnMousePressed(this::handleMousePressed);
         dragArea.setOnMouseDragged(this::handleMouseDragged);

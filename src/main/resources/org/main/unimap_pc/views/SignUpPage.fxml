@@ -31,9 +31,9 @@
       </children>
    </AnchorPane>
    <AnchorPane layoutY="83.0" prefHeight="523.0" prefWidth="450.0">
-      <Label layoutX="81.0" layoutY="11.0" prefHeight="39.0" prefWidth="294.0" text="User Registration">
+      <Label fx:id="userRegistr" layoutX="81.0" layoutY="32.0" prefHeight="39.0" prefWidth="352.0" text="User Registration">
          <font>
-            <Font name="Arial Bold" size="34.0" />
+            <Font name="Arial Bold" size="30.0" />
          </font>
       </Label>
       <FontAwesomeIcon fill="#0d232f" glyphName="LOCK" layoutX="49.0" layoutY="294.0" size="25" />

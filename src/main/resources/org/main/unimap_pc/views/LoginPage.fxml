@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
@@ -40,7 +41,10 @@
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="500.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: white;">
-      <Label fx:id="btnForgotPass" layoutX="68.0" layoutY="329.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: hand;" text="Forgot your password?" textFill="#4d4d4d" />
+      <Label fx:id="btnForgotPass" layoutX="53.0" layoutY="352.0" onMouseClicked="#handleForgotPass" style="-fx-cursor: hand;" text="Forgot your password?" textFill="#4d4d4d">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font></Label>
       <Label fx:id="or" layoutX="239.0" layoutY="398.0" text="Or" textFill="#4d4d4d" />
       <ImageView fitHeight="138.0" fitWidth="290.0" layoutX="113.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/stu_logo.png" />
@@ -52,17 +56,17 @@
             <Font name="Andale Mono" size="13.0" />
          </font>
       </Label>
-      <FontAwesomeIcon fill="#0d232f" glyphName="USERS" layoutX="33.0" layoutY="237.0" size="25" />
-      <FontAwesomeIcon fill="#0d2330" glyphName="LOCK" layoutX="39.0" layoutY="299.0" size="25" />
+      <FontAwesomeIcon fill="#0d232f" glyphName="USERS" layoutX="33.0" layoutY="217.0" size="25" />
+      <FontAwesomeIcon fill="#0d2330" glyphName="LOCK" layoutX="39.0" layoutY="279.0" size="25" />
       <FontAwesomeIcon fill="#8a8a8a" glyphName="DOWNLOAD" layoutX="362.0" layoutY="583.0" size="15" />
       <Label fx:id="dontHaveAcc" layoutX="177.0" layoutY="493.0" text="Don't have an account?" textFill="#4d4d4d" />
-      <MFXTextField fx:id="fieldUsername" borderGap="0.0" floatingText="Login / Email" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="73.0" layoutY="205.0" maxHeight="41.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your login or email">
+      <MFXTextField fx:id="fieldUsername" borderGap="0.0" floatingText="Login / Email" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="73.0" layoutY="185.0" maxHeight="41.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your login or email">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
       </MFXTextField>
-      <MFXPasswordField fx:id="fieldPassword" borderGap="0.0" floatingText="Password" floatingTextGap="1.0" layoutX="73.0" layoutY="270.0" maxHeight="40.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your password" />
-      <MFXButton fx:id="btnSignin" layoutX="271.0" layoutY="323.0" onMouseClicked="#handleSignIn" prefHeight="48.0" prefWidth="140.0" style="-fx-background-color: #36436F; -fx-cursor: hand;" text="Log In" textFill="WHITE">
+      <MFXPasswordField fx:id="fieldPassword" borderGap="0.0" floatingText="Password" floatingTextGap="1.0" layoutX="73.0" layoutY="250.0" maxHeight="40.0" measureUnitGap="4.0" minHeight="25.0" prefColumnCount="0" prefHeight="40.0" prefWidth="340.0" promptText="Write your password" />
+      <MFXButton fx:id="btnSignin" layoutX="310.0" layoutY="340.0" onMouseClicked="#handleSignIn" prefHeight="48.0" prefWidth="140.0" style="-fx-background-color: #36436F; -fx-cursor: hand;" text="Log In" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
@@ -100,5 +104,6 @@
             <Font name="Roboto Bold Italic" size="14.0" />
          </font>
       </Label>
+      <MFXCheckbox fx:id="checkTerms" gap="14.0" layoutX="39.0" layoutY="306.0" text="I agree with Terms of Service and Privacy Policy" />
    </AnchorPane>
 </AnchorPane>
