@@ -31,7 +31,6 @@ public class AppConfig {
     private static final String OAUTH2_GOOGLE = API_URL + "authenticate/google";
     private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/google";
     private static final String REFRESH_TOKENS_URL = API_URL + "refresh";
-    private static final String VALIDATE_REFRESH_TOKEN = API_URL + "validate";
 
     // Getters
     public static String getLoginPagePath() {
@@ -121,9 +120,5 @@ public class AppConfig {
 
     public static String getRefreshTokenUrl() {
         return REFRESH_TOKENS_URL;
-    }
-
-    public static String getValidRefreshTokenUrl() {
-        return VALIDATE_REFRESH_TOKEN;
     }
 }

@@ -12,13 +12,12 @@ import org.main.unimap_pc.client.configs.AppConfig;
 import java.io.IOException;
 import java.util.Objects;
 
+@Setter
 public class JWTService {
 
-    @Setter
     private TokenRefresher tokenRefresher;
 
     public void refreshTokenService() {
-        if (validateRefreshToken()) {
             AuthService.refreshAccessToken().thenAccept(isTokenRefreshed -> {
                 if (isTokenRefreshed) {
                     if (tokenRefresher != null) {
@@ -28,27 +27,16 @@ public class JWTService {
                     handleInvalidToken();
                 }
             });
-        } else {
-            handleInvalidToken();
-        }
-    }
-
-    public boolean validateRefreshToken() {
-        AuthService.validateRefreshToken().thenAccept(isTokenValid -> {
-            if (!isTokenValid) {
-                AuthService.prefs.remove("REFRESH_TOKEN");
-            }
-        });
-
-        String refreshToken = AuthService.prefs.get("REFRESH_TOKEN", null);
-
-        return refreshToken != null && !refreshToken.isEmpty();
     }
 
     private void handleInvalidToken() {
         if (tokenRefresher != null) {
             tokenRefresher.stopTokenRefreshTask();
         }
+        AuthService.prefs.remove("ACCESS_TOKEN");
+        AuthService.prefs.remove("REFRESH_TOKEN");
+        AuthService.prefs.remove("USER_DATA");
+
         redirectToLoginPage();
     }
 

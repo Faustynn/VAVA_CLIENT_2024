@@ -8,10 +8,7 @@ import lombok.Getter;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.controllers.SceneController;
 import org.main.unimap_pc.client.services.CheckClientConnection;
-import org.main.unimap_pc.client.services.JWTService;
-import org.main.unimap_pc.client.utils.LanguageManager;
 import org.main.unimap_pc.client.utils.LoadingScreens;
-import org.main.unimap_pc.client.utils.TokenRefresher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -177,10 +174,6 @@ public class MainApp extends Application {
         }
     }
     public static void main(String[] args) {
-        JWTService jwtService = new JWTService();
-        TokenRefresher tokenRefresher = new TokenRefresher(jwtService);
-        jwtService.setTokenRefresher(tokenRefresher);
-
         launch(args);
     }
 }
