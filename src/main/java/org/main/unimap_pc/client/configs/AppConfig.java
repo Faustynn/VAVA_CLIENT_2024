@@ -19,6 +19,7 @@ public class AppConfig {
     private static final String SIGNUP_PAGE_PATH = "/org/main/unimap_pc/views/SignUpPage.fxml";
     private static final String FORGOT_PASS_PAGE_PATH = "/org/main/unimap_pc/views/ForgotPass.fxml";
     private static final String FORGOT_PASS_PAGE_PATH2 = "/org/main/unimap_pc/views/ForgotPass_second.fxml";
+
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
@@ -29,6 +30,8 @@ public class AppConfig {
     private static final String CHANGE_PASSWORD = API_URL + "user/email/password";
     private static final String OAUTH2_GOOGLE = API_URL + "authenticate/google";
     private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/google";
+    private static final String REFRESH_TOKENS_URL = API_URL + "refresh";
+    private static final String VALIDATE_REFRESH_TOKEN = API_URL + "validate";
 
     // Getters
     public static String getLoginPagePath() {
@@ -114,5 +117,13 @@ public class AppConfig {
 
     public static String getOauth2Facebook() {
         return OAUTH2_FACEBOOK;
+    }
+
+    public static String getRefreshTokenUrl() {
+        return REFRESH_TOKENS_URL;
+    }
+
+    public static String getValidRefreshTokenUrl() {
+        return VALIDATE_REFRESH_TOKEN;
     }
 }

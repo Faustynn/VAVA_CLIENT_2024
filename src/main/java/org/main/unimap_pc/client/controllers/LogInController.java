@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Locale;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -283,6 +282,7 @@ public class LogInController implements LanguageSupport {
                     currentStage.setScene(mainScene);
                     currentStage.setFullScreen(true);
                     currentStage.show();
+
                 } catch (IOException e) {
                     System.err.println("Failed to load main page: " + e.getMessage());
                     showErrorDialog("Error loading the application. Please try again later.");

@@ -37,7 +37,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <MFXButton fx:id="btnSendConfirm" layoutX="132.0" layoutY="139.0" onMouseClicked="#ConfirmMailbtn" prefHeight="35.0" prefWidth="93.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Confirm" textFill="WHITE">
+            <MFXButton fx:id="btnSendMail" layoutX="132.0" layoutY="139.0" onMouseClicked="#ConfirmMailbtn" prefHeight="35.0" prefWidth="93.0" style="-fx-background-color: #36436FFF; -fx-cursor: hand;" text="Confirm" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

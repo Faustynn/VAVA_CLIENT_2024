@@ -74,7 +74,8 @@ public class AuthService {
                                 prefs.put("REFRESH_TOKEN", refreshToken);
                                 prefs.put("USER_DATA", userNode.toString());
                                 scheduler.schedule(() -> prefs.remove("USER_DATA"), 30, TimeUnit.MINUTES);
-                              //  System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
+                            //    System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
+                            //    System.out.println("User Data: " + userNode.toString());
                                 return true;
                             } else {
                                 System.err.println("Tokens not found in the response.");
@@ -91,6 +92,90 @@ public class AuthService {
                 })
                 .exceptionally(throwable -> {
                     System.err.println("Authentication request failed: " + throwable.getMessage());
+                    return false;
+                });
+
+    }
+
+    public static CompletableFuture<Boolean> refreshAccessToken() {
+        String refreshToken = prefs.get("REFRESH_TOKEN", null);
+        if (refreshToken == null) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("refreshToken", refreshToken);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(AppConfig.getRefreshTokenUrl()))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                .build();
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+                    if (response.statusCode() == 200) {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            JsonNode jsonNode = objectMapper.readTree(response.body());
+                            String newAccessToken = jsonNode.get("accessToken").asText();
+
+                            if (newAccessToken != null) {
+                                prefs.put("ACCESS_TOKEN", newAccessToken);
+                                return true;
+                            } else {
+                                System.err.println("New access token not found in the response.");
+                                return false;
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Failed to parse JSON response: " + e.getMessage());
+                            return false;
+                        }
+                    } else {
+                        System.err.println("Token refresh failed with status code: " + response.statusCode());
+                        return false;
+                    }
+                })
+                .exceptionally(throwable -> {
+                    System.err.println("Token refresh request failed: " + throwable.getMessage());
+                    return false;
+                });
+    }
+
+    public static CompletableFuture<Boolean> validateRefreshToken() {
+        String refreshToken = prefs.get("REFRESH_TOKEN", null);
+        if (refreshToken == null) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("refreshToken", refreshToken);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(AppConfig.getValidRefreshTokenUrl()))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                .build();
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+                    if (response.statusCode() == 200) {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            JsonNode jsonNode = objectMapper.readTree(response.body());
+
+                            return jsonNode.get("isValid").asBoolean();
+                        } catch (Exception e) {
+                            System.err.println("Failed to parse JSON response: " + e.getMessage());
+                            return false;
+                        }
+                    } else {
+                        System.err.println("Token refresh failed with status code: " + response.statusCode());
+                        return false;
+                    }
+                })
+                .exceptionally(throwable -> {
+                    System.err.println("Token refresh request failed: " + throwable.getMessage());
                     return false;
                 });
 
