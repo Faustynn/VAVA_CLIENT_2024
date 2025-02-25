@@ -109,6 +109,10 @@ public class FilterService {
                 "            {\n" +
                 "                \"name\": \"VNOS_I\",\n" +
                 "                \"roles\": [\"cvičiaci\"]\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"name\": \"DSA_B\",\n" +
+                "                \"roles\": [\"prednasajuci\"]\n" +
                 "            }\n" +
                 "        ]\n" +
                 "    },\n" +
@@ -155,7 +159,7 @@ public class FilterService {
                 .filter(searchForm.studyTypePredicate)
                 .filter(searchForm.subjectTypePredicate)
                 .filter(searchForm.nameSearch)
-                .map(teacher -> teacher.getString("name"))
+                .map(teacher -> teacher.getString("code")+" "+teacher.getString("name"))
                 .collect(Collectors.toList());
         return SubjectList;
     }
