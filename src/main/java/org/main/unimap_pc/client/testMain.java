@@ -7,7 +7,7 @@ import java.nio.file.DirectoryStream;
 public class testMain {
     public static void main(String[] args){
         FilterService filterService = new FilterService();
-        
+
         System.out.println(filterService.filterTeachers(new FilterService.teacherSearchForm(
                 "",
                 "VNOS_I")));
@@ -16,7 +16,8 @@ public class testMain {
                 "",
                 FilterService.subjectSearchForm.subjectTypeEnum.NONE,
                 FilterService.subjectSearchForm.studyTypeEnum.NONE,
-                FilterService.subjectSearchForm.semesterEnum.NONE
+                FilterService.subjectSearchForm.semesterEnum.NONE,
+                "RNDr. Mgr. Ing. Miroslav Reiter, MBA"
         )));
     }
 }

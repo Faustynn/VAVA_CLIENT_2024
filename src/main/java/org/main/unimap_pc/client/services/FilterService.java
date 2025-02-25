@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 
 public class FilterService {
 
-    public FilterService(){}
+    public FilterService(){
+        getSubjects();
+        getTeachers();
+    }
 
     private static String removeDiacritics(String input) {
         return Normalizer.normalize(input, Normalizer.Form.NFD)
@@ -138,28 +141,27 @@ public class FilterService {
     }
 
 
-    public List<String> filterTeachers(teacherSearchForm searchForm){
+    public List<JSONObject> filterTeachers(teacherSearchForm searchForm){
         getTeachers();
 
-        List<String> TeacherList = TeacherArray.toList().stream()
+        List<JSONObject> TeacherList = TeacherArray.toList().stream()
                 .map(obj -> new JSONObject((Map<String, Object>)  obj))
                 .filter(searchForm.teachesSubject)
                 .filter(searchForm.nameSearch)
-                .map(teacher -> teacher.getString("name")) // Extract the name of the teacher
                 .collect(Collectors.toList());
         return TeacherList;
     }
 
-    public List<String> filterSubjects(subjectSearchForm searchForm){
+    public List<JSONObject> filterSubjects(subjectSearchForm searchForm){
         getSubjects();
 
-        List<String> SubjectList = SubjectArray.toList().stream()
+        List<JSONObject> SubjectList = SubjectArray.toList().stream()
                 .map(obj -> new JSONObject((Map<String, Object>)  obj))
                 .filter(searchForm.semesterPredicate)
                 .filter(searchForm.studyTypePredicate)
                 .filter(searchForm.subjectTypePredicate)
                 .filter(searchForm.nameSearch)
-                .map(teacher -> teacher.getString("code")+" "+teacher.getString("name"))
+                .filter(searchForm.teacherPredicate)
                 .collect(Collectors.toList());
         return SubjectList;
     }
@@ -199,7 +201,8 @@ public class FilterService {
         private final Predicate<JSONObject> subjectTypePredicate;
         private final Predicate<JSONObject> studyTypePredicate;
         private final Predicate<JSONObject> semesterPredicate;
-        public subjectSearchForm(String searchTerm, subjectTypeEnum subjectType, studyTypeEnum studyType,semesterEnum semester){
+        private final Predicate<JSONObject> teacherPredicate;
+        public subjectSearchForm(String searchTerm, subjectTypeEnum subjectType, studyTypeEnum studyType,semesterEnum semester,String teacherName){
             nameSearch = subject -> {
                 if(searchTerm.isBlank()){return true;}
                 String originalName = subject.getString("name");
@@ -239,6 +242,17 @@ public class FilterService {
                     case LS -> type.equals("LS");
                     case NONE -> true;
                 };
+            };
+            teacherPredicate = subject ->{
+                if(teacherName.isBlank()) return true;
+                JSONArray teachers = subject.getJSONArray("teachers");
+                for (int i = 0; i < teachers.length(); i++) {
+                    JSONObject teacherTemp = teachers.getJSONObject(i);
+                    if (teacherTemp.getString("name").equals(teacherName)) {
+                        return true;
+                    }
+                }
+                return false;
             };
         }
 

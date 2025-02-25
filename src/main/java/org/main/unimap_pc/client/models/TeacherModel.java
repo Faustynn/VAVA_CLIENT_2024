@@ -1,5 +1,4 @@
 package org.main.unimap_pc.client.models;
 
-
-public class SubjectModel {
+public class TeacherModel {
 }
