@@ -2,9 +2,10 @@ package org.main.unimap_pc.client.services;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.main.unimap_pc.client.models.Subject;
+import org.main.unimap_pc.client.models.Teacher;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -102,8 +103,8 @@ public class FilterService {
                 "        \"id\": 92443,\n" +
                 "        \"name\": \"doc. Ing. Lukáš Kohútka, PhD.\",\n" +
                 "        \"email\": \"jan.mach@stuba.sk\",\n" +
-                "        \"number\": null,\n" +
-                "        \"personalOffice\": null,\n" +
+                "        \"number\": \"123456798\",\n" +
+                "        \"personalOffice\": \"3.14\",\n" +
                 "        \"subject\": [\n" +
                 "            {\n" +
                 "                \"name\": \"SPRO_B\",\n" +
@@ -141,27 +142,45 @@ public class FilterService {
     }
 
 
-    public List<JSONObject> filterTeachers(teacherSearchForm searchForm){
+    public List<Teacher> filterTeachers(teacherSearchForm searchForm){
         getTeachers();
 
-        List<JSONObject> TeacherList = TeacherArray.toList().stream()
+        List<Teacher> TeacherList = TeacherArray.toList().stream()
                 .map(obj -> new JSONObject((Map<String, Object>)  obj))
                 .filter(searchForm.teachesSubject)
                 .filter(searchForm.nameSearch)
+                .map(json -> {
+                    Teacher teacher = null;
+                    try {
+                        teacher = new Teacher(json);
+                        return teacher;
+                    } catch (MissingKeyJsonException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList());
         return TeacherList;
     }
 
-    public List<JSONObject> filterSubjects(subjectSearchForm searchForm){
+    public List<Subject> filterSubjects(subjectSearchForm searchForm){
         getSubjects();
 
-        List<JSONObject> SubjectList = SubjectArray.toList().stream()
+        List<Subject> SubjectList = SubjectArray.toList().stream()
                 .map(obj -> new JSONObject((Map<String, Object>)  obj))
                 .filter(searchForm.semesterPredicate)
                 .filter(searchForm.studyTypePredicate)
                 .filter(searchForm.subjectTypePredicate)
                 .filter(searchForm.nameSearch)
                 .filter(searchForm.teacherPredicate)
+                .map(json -> {
+                    Subject subject = null;
+                    try {
+                        subject = new Subject(json);
+                        return subject;
+                    } catch (MissingKeyJsonException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList());
         return SubjectList;
     }

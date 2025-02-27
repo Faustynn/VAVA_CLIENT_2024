@@ -10,14 +10,15 @@ public class testMain {
 
         System.out.println(filterService.filterTeachers(new FilterService.teacherSearchForm(
                 "",
-                "VNOS_I")));
+                "VNOS_I")
+        ).getFirst().getName());
 
         System.out.println(filterService.filterSubjects(new FilterService.subjectSearchForm(
                 "",
                 FilterService.subjectSearchForm.subjectTypeEnum.NONE,
                 FilterService.subjectSearchForm.studyTypeEnum.NONE,
                 FilterService.subjectSearchForm.semesterEnum.NONE,
-                "RNDr. Mgr. Ing. Miroslav Reiter, MBA"
-        )));
+                "RNDr. Mgr. Ing. Miroslav Reiter, MBA")
+        ).getFirst().getCode());
     }
 }
