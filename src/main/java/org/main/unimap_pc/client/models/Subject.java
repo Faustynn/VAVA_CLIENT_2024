@@ -33,7 +33,6 @@ public class Subject {
     private String courseContents;
     private String plannedActivities;
     private String evaluationMethods;
-    private List<SubjectTeacherEntity> teacherList;
     public Subject(JSONObject jsonBase) {
         try {
             code = jsonBase.getString("code");
@@ -126,17 +125,6 @@ public class Subject {
                     .toList();
         } catch (org.json.JSONException e) {
             languages = new ArrayList<String>();
-        }
-        try {
-            teacherList = jsonBase.getJSONArray("teachers").toList().stream().map(o -> {
-                JSONObject teacherJson = new JSONObject((java.util.Map<?, ?>) o);
-                Teacher teacher = null;
-                List<String> roles = teacherJson.getJSONArray("roles").toList().stream().map(Object::toString).toList();
-                List<String> languages = teacherJson.getJSONArray("languages").toList().stream().map(Object::toString).toList();
-                return new SubjectTeacherEntity(teacher, roles, languages);
-            }).toList();
-        } catch (org.json.JSONException e) {
-            teacherList = new ArrayList<SubjectTeacherEntity>();
         }
     }
 }

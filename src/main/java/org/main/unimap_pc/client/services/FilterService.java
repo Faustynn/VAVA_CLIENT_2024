@@ -83,7 +83,7 @@ public class FilterService {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-        SubjectArray = new JSONArray(subjectJson);
+        SubjectArray = new JSONObject(subjectJson).getJSONArray("subjects");
     }
 
     private void getTeachers(){
@@ -141,7 +141,7 @@ public class FilterService {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-        TeacherArray = new JSONArray(teacherJson);
+        TeacherArray = new JSONObject(teacherJson).getJSONArray("teachers");
     }
 
 
@@ -166,7 +166,6 @@ public class FilterService {
                 .filter(searchForm.studyTypePredicate)
                 .filter(searchForm.subjectTypePredicate)
                 .filter(searchForm.nameSearch)
-                .filter(searchForm.teacherPredicate)
                 .map(Subject::new)
                 .collect(Collectors.toList());
         return SubjectList;
@@ -180,10 +179,10 @@ public class FilterService {
                 if(targetSubject.isBlank()){
                     return true;
                 }
-                JSONArray subjects = teacher.getJSONArray("subject");
+                JSONArray subjects = teacher.getJSONArray("subjects");
                 for (int i = 0; i < subjects.length(); i++) {
                     JSONObject subject = subjects.getJSONObject(i);
-                    if (subject.getString("name").equals(targetSubject)) {
+                    if (subject.getString("subjectName").equals(targetSubject)) {
                         return true;
                     }
                 }
@@ -207,8 +206,7 @@ public class FilterService {
         private final Predicate<JSONObject> subjectTypePredicate;
         private final Predicate<JSONObject> studyTypePredicate;
         private final Predicate<JSONObject> semesterPredicate;
-        private final Predicate<JSONObject> teacherPredicate;
-        public subjectSearchForm(String searchTerm, subjectTypeEnum subjectType, studyTypeEnum studyType,semesterEnum semester,String teacherName){
+        public subjectSearchForm(String searchTerm, subjectTypeEnum subjectType, studyTypeEnum studyType,semesterEnum semester){
             nameSearch = subject -> {
                 if(searchTerm.isBlank()){return true;}
                 String originalName = subject.getString("name");
@@ -248,17 +246,6 @@ public class FilterService {
                     case LS -> type.equals("LS");
                     case NONE -> true;
                 };
-            };
-            teacherPredicate = subject ->{
-                if(teacherName.isBlank()) return true;
-                JSONArray teachers = subject.getJSONArray("teachers");
-                for (int i = 0; i < teachers.length(); i++) {
-                    JSONObject teacherTemp = teachers.getJSONObject(i);
-                    if (teacherTemp.getString("name").equals(teacherName)) {
-                        return true;
-                    }
-                }
-                return false;
             };
         }
 
