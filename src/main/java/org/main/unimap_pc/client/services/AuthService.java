@@ -5,8 +5,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.prefs.Preferences;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,8 +16,8 @@ import org.main.unimap_pc.client.utils.TokenRefresher;
 public class AuthService {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
     public static final Preferences prefs = Preferences.userNodeForPackage(AuthService.class);
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static TokenRefresher tokenRefresher;
+    private static final DataFetcher dataFetcher = new DataFetcher();
 
     public static CompletableFuture<Boolean> login(String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
@@ -73,8 +71,9 @@ public class AuthService {
                                 tokenRefresher = new TokenRefresher(new JWTService());
                                 tokenRefresher.startTokenRefreshTask();
 
-                                System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
-                                System.out.println("User Data: " + userNode.toString());
+                 //               System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
+                 //               System.out.println("User Data: " + userNode.toString());
+                                dataFetcher.fetchData();
                                 return true;
                             } else {
                                 System.err.println("Tokens not found in the response.");
