@@ -149,15 +149,7 @@ public class FilterService {
                 .map(obj -> new JSONObject((Map<String, Object>)  obj))
                 .filter(searchForm.teachesSubject)
                 .filter(searchForm.nameSearch)
-                .map(json -> {
-                    Teacher teacher = null;
-                    try {
-                        teacher = new Teacher(json);
-                        return teacher;
-                    } catch (MissingKeyJsonException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(Teacher::new)
                 .collect(Collectors.toList());
         return TeacherList;
     }
@@ -172,15 +164,7 @@ public class FilterService {
                 .filter(searchForm.subjectTypePredicate)
                 .filter(searchForm.nameSearch)
                 .filter(searchForm.teacherPredicate)
-                .map(json -> {
-                    Subject subject = null;
-                    try {
-                        subject = new Subject(json);
-                        return subject;
-                    } catch (MissingKeyJsonException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(Subject::new)
                 .collect(Collectors.toList());
         return SubjectList;
     }
