@@ -22,7 +22,12 @@ public class Subject {
     private List<String> languages;
     private String completionType;
     private long studentCount;
-    private List<EvaluationEntity> evaluation;
+    private String aScore;
+    private String bScore;
+    private String cScore;
+    private String dScore;
+    private String eScore;
+    private String fxScore;
     private String assesmentMethods;
     private String learningOutcomes;
     private String courseContents;
@@ -86,23 +91,41 @@ public class Subject {
             courseContents = "";
         }
         try {
+            aScore = jsonBase.getString("aScore");
+        } catch (org.json.JSONException e) {
+            aScore = "";
+        }
+        try {
+            bScore = jsonBase.getString("bscore");
+        } catch (org.json.JSONException e) {
+            bScore = "";
+        }
+        try {
+            cScore = jsonBase.getString("cscore");
+        } catch (org.json.JSONException e) {
+            cScore = "";
+        }
+        try {
+            dScore = jsonBase.getString("dscore");
+        } catch (org.json.JSONException e) {
+            dScore = "";
+        }
+        try {
+            eScore = jsonBase.getString("escore");
+        } catch (org.json.JSONException e) {
+            eScore = "";
+        }
+        try {
+            fxScore = jsonBase.getString("ascore");
+        } catch (org.json.JSONException e) {
+            fxScore = "";
+        }
+        try {
             languages = jsonBase.getJSONArray("languages").toList().stream()
                     .map(Object::toString)
                     .toList();
         } catch (org.json.JSONException e) {
             languages = new ArrayList<String>();
-        }
-        try {
-            JSONArray evaluationArray = jsonBase.getJSONArray("evaluation");
-
-            for (int i = 0; i < evaluationArray.length(); i++) {
-                JSONObject evaluationObj = evaluationArray.getJSONObject(i);
-                String grade = evaluationObj.keys().next();
-                Double percentage = evaluationObj.getDouble(grade);
-                evaluation.add(new EvaluationEntity(grade, percentage));
-            }
-        } catch (org.json.JSONException e) {
-            evaluation = new ArrayList<EvaluationEntity>();
         }
         try {
             teacherList = jsonBase.getJSONArray("teachers").toList().stream().map(o -> {
