@@ -8,7 +8,6 @@ import lombok.Getter;
 import org.main.unimap_pc.client.configs.AppConfig;
 import org.main.unimap_pc.client.controllers.SceneController;
 import org.main.unimap_pc.client.services.CheckClientConnection;
-import org.main.unimap_pc.client.utils.LanguageManager;
 import org.main.unimap_pc.client.utils.LoadingScreens;
 
 import java.io.IOException;

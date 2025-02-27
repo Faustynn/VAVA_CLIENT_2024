@@ -1,12 +1,17 @@
 package org.main.unimap_pc.client.configs;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
+// TODO: Rewrite prop file with lombok
+
+@Getter
+@Setter
 public class AppConfig {
     // General app settings
     private static final String APP_TITLE = "UniMap";
@@ -19,16 +24,26 @@ public class AppConfig {
     private static final String SIGNUP_PAGE_PATH = "/org/main/unimap_pc/views/SignUpPage.fxml";
     private static final String FORGOT_PASS_PAGE_PATH = "/org/main/unimap_pc/views/ForgotPass.fxml";
     private static final String FORGOT_PASS_PAGE_PATH2 = "/org/main/unimap_pc/views/ForgotPass_second.fxml";
+
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
+
     private static final String AUTH_URL = API_URL + "authenticate";
     private static final String REGISTR_URL = API_URL + "register";
+
     private static final String FIND_USER_BY_EMAIL_URL = API_URL + "user/email/";
+
     private static final String CONFIRM_CODE_TO_EMAIL = API_URL + "user/email/code";
     private static final String CHANGE_PASSWORD = API_URL + "user/email/password";
+
     private static final String OAUTH2_GOOGLE = API_URL + "authenticate/google";
-    private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/google";
+    private static final String OAUTH2_FACEBOOK = API_URL + "authenticate/facebook";
+
+    private static final String REFRESH_TOKENS_URL = API_URL + "refresh";
+
+    private static final String SUBJECTS_URL = API_URL + "resources/subjects";
+    private static final String TEACHERS_URL = API_URL + "resources/teachers";
 
     // Getters
     public static String getLoginPagePath() {
@@ -94,6 +109,16 @@ public class AppConfig {
     );
 
 
+    public static String getSubjectsUrl() {
+        return SUBJECTS_URL;
+    }
+    public static String getTeachersUrl() {
+        return TEACHERS_URL;
+    }
+
+
+
+
 
     private static final Properties properties = new Properties();
     static {
@@ -114,5 +139,9 @@ public class AppConfig {
 
     public static String getOauth2Facebook() {
         return OAUTH2_FACEBOOK;
+    }
+
+    public static String getRefreshTokenUrl() {
+        return REFRESH_TOKENS_URL;
     }
 }

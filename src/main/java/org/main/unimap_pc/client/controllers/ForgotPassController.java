@@ -35,6 +35,9 @@ public class ForgotPassController implements LanguageSupport {
     private MFXButton btnSendMail;
 
     @FXML
+    private MFXButton btnConfirmMail;
+
+    @FXML
     private MFXTextField fieldEmail;
 
     @FXML
@@ -66,14 +69,15 @@ public class ForgotPassController implements LanguageSupport {
     @Override
     public void updateUILanguage(ResourceBundle languageBundle) {
         btnSendMail.setText(languageBundle.getString("send"));
-        fieldEmail.setPromptText(languageBundle.getString("email"));
+        if (fieldEmail == null) {
+            fieldCode.setPromptText(languageBundle.getString("code"));
+        }else {
+            fieldEmail.setPromptText(languageBundle.getString("email"));
+        }
         if (fieldCode != null) {
             fieldCode.setPromptText(languageBundle.getString("code"));
-        }
-        reset_text.setText(languageBundle.getString("reset.text"));
-        btnSendMail.setText(languageBundle.getString("send"));
-        if (fieldCode != null) {
-            fieldCode.setPromptText(languageBundle.getString("code.prompt"));
+        }else {
+            reset_text.setText(languageBundle.getString("reset.text"));
         }
     }
 
@@ -123,7 +127,8 @@ public class ForgotPassController implements LanguageSupport {
                         Scene scene = new Scene(root);
                         stage.setScene(scene);
                     } catch (IOException e) {
-                        infoMess.setText("Failed to load next page, please try again!");
+                        infoMess.setText("Error #418 :), please try again or contact support");
+                        e.printStackTrace();
                     }
                 }
             }));
