@@ -36,6 +36,7 @@ public class AppConfig {
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
     private static final String CHECK_CONNECTION_URL = API_URL + "check-connection";
+    private static final String GET_NEWS_URL = API_URL + "news/all";
 
     private static final String AUTH_URL = API_URL + "authenticate";
     private static final String REGISTR_URL = API_URL + "register";
@@ -168,6 +169,10 @@ public class AppConfig {
     public static Image getAvatar(String avatarID) {
         String imagePath = "../images/avatares/" + avatarID + ".png";
         return new Image(imagePath);
+    }
+
+    public static String getNewsUrl() {
+        return GET_NEWS_URL;
     }
 }
 

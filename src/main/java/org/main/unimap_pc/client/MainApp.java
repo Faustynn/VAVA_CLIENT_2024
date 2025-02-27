@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.main.unimap_pc.client.configs.AppConfig;
+import org.main.unimap_pc.client.controllers.NewsController;
 import org.main.unimap_pc.client.controllers.SceneController;
 import org.main.unimap_pc.client.services.CheckClientConnection;
 import org.main.unimap_pc.client.utils.LoadingScreens;
@@ -47,6 +48,7 @@ public class MainApp extends Application {
         checkServerConnectionAsync(stage);
         schedulePeriodicServerChecks(stage);
     }
+
 
     private void checkServerConnectionAsync(Stage stage) {
         if(!connectionEstablished){
