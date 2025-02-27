@@ -1,5 +1,6 @@
 package org.main.unimap_pc.client.configs;
 
+import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -162,4 +163,11 @@ public class AppConfig {
     public static String getRefreshTokenUrl() {
         return REFRESH_TOKENS_URL;
     }
+
+
+    public static Image getAvatar(String avatarID) {
+        String imagePath = "../images/avatares/" + avatarID + ".png";
+        return new Image(imagePath);
+    }
 }
+

@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -21,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.main.unimap_pc.client.configs.AppConfig;
+import org.main.unimap_pc.client.models.UserModel;
 import org.main.unimap_pc.client.utils.LanguageManager;
 import org.main.unimap_pc.client.utils.LanguageSupport;
 
@@ -63,6 +66,14 @@ public class HomePageController implements LanguageSupport {
             userData = prefs.get("USER_DATA", null);
             cachedLanguage = prefs.get("LANGUAGE", "en");
 
+            UserModel user = initUser(userData);
+            if (user != null) {
+                navi_username_text.setText(user.getUsername());
+                navi_login_text.setText(user.getLogin());
+                System.out.println(user.getAvatar());
+                navi_avatar.setImage(AppConfig.getAvatar(user.getAvatar()));
+            }
+
             LanguageManager.changeLanguage(cachedLanguage);
             LanguageManager.getInstance().registerController(this);
             updateUILanguage(LanguageManager.getCurrentBundle());
@@ -83,7 +94,6 @@ public class HomePageController implements LanguageSupport {
             });
         }
     }
-
     private void loadCurrentLanguage() {
         String selectedLanguage = prefs.get(AppConfig.getLANGUAGE_KEY(), AppConfig.getDEFAULT_LANGUAGE());
         languageComboBox.setValue(selectedLanguage);
@@ -100,6 +110,26 @@ public class HomePageController implements LanguageSupport {
                 loadCurrentLanguage();
             }
         });
+    }
+    private UserModel initUser(String userData) {
+        if (userData != null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(userData);
+
+                String id = jsonNode.get("id").asText();
+                String login = jsonNode.get("login").asText();
+                String email = jsonNode.get("email").asText();
+                String username = jsonNode.get("username").asText();
+                String avatar = jsonNode.get("avatar").asText();
+                boolean admin = jsonNode.get("admin").asBoolean();
+
+                return new UserModel(id, username, email, login, admin, avatar);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 
@@ -285,4 +315,6 @@ public class HomePageController implements LanguageSupport {
             showErrorDialog("Error loading the application. Please try again later.");
         }
     }
+
+
 }

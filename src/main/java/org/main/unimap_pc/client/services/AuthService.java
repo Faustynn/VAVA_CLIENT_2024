@@ -72,7 +72,7 @@ public class AuthService {
                                 tokenRefresher.startTokenRefreshTask();
 
                  //               System.out.println("Access Token: " + accessToken + "\nRefresh Token: " + refreshToken);
-                 //               System.out.println("User Data: " + userNode.toString());
+                                System.out.println("User Data: " + userNode.toString());
                                 dataFetcher.fetchData();
                                 return true;
                             } else {

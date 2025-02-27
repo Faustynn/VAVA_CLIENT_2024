@@ -119,12 +119,12 @@
                   <MFXButton fx:id="navi_avatar_btn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="956.0" layoutY="18.0">
                      <graphic>
                         <ImageView fx:id="navi_avatar" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../../1.jpg" />
-                           </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <image>
+                              <Image url="@../images/avatares/0.png" />
+                           </image>
                         </ImageView>
                      </graphic>
                      <cursor>

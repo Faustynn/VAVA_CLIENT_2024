@@ -11,23 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserModel {
-    private Long id;
+    private String id;
     private String username;
-    private String password;
     private String email;
     private String login;
-
-    public UserModel(String username, String email, String login, String password) {
-        this.username = username;
-        this.email = email;
-        this.login = login;
-        this.password = password;
-    }
-
-    @JsonProperty("admin")
     private boolean isAdmin;
-    private boolean subscribe;
-    private boolean verification;
     private String avatar;
 
 }
