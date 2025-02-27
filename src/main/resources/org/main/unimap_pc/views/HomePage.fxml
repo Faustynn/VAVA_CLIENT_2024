@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="956.0" prefWidth="1470.0" style="-fx-background-color: #EAEEF4;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.MainPageController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="956.0" prefWidth="1470.0" style="-fx-background-color: #EAEEF4;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.unimap_pc.client.controllers.HomePageController">
    <children>
       <VBox prefHeight="200.0" prefWidth="370.0">
          <children>
@@ -41,7 +41,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <MFXButton fx:id="btn_homepage" graphicTextGap="8.0" layoutX="15.0" layoutY="200.0" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #659ac9; -fx-border-color: #36436F;" styleClass="" text="Home" textFill="WHITE">
+                  <MFXButton fx:id="btn_homepage" graphicTextGap="8.0" layoutX="15.0" layoutY="200.0" onMouseClicked="#handleHomePageClick" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #659ac9; -fx-border-color: #36436F;" styleClass="" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="34.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="btn_profilepage" graphicTextGap="8.0" layoutX="15.0" layoutY="325.0" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Profile" textFill="WHITE">
+                  <MFXButton fx:id="btn_profilepage" graphicTextGap="8.0" layoutX="15.0" layoutY="325.0" onMouseClicked="#handleProfilePageClick" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Profile" textFill="WHITE">
                       <font>
                           <Font name="Arial" size="34.0" />
                       </font>
@@ -63,7 +63,7 @@
                           <Cursor fx:constant="HAND" />
                       </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="btn_subjectpage" graphicTextGap="8.0" layoutX="15.0" layoutY="450.0" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Subject" textFill="WHITE">
+                  <MFXButton fx:id="btn_subjectpage" graphicTextGap="8.0" layoutX="15.0" layoutY="450.0" onMouseClicked="#handleSubjectPageClick" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Subject" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="34.0" />
                      </font>
@@ -74,7 +74,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="btn_teacherspage" graphicTextGap="8.0" layoutX="15.0" layoutY="575.0" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Teachers" textFill="WHITE">
+                  <MFXButton fx:id="btn_teacherspage" graphicTextGap="8.0" layoutX="15.0" layoutY="575.0" onMouseClicked="#handleTeachersPageClick" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Teachers" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="34.0" />
                      </font>
@@ -85,7 +85,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="btn_settingspage" graphicTextGap="8.0" layoutX="15.0" layoutY="700.0" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Settings" textFill="WHITE">
+                  <MFXButton fx:id="btn_settingspage" graphicTextGap="8.0" layoutX="15.0" layoutY="700.0" onMouseClicked="#handleSettingsPageClick" prefHeight="85.0" prefWidth="340.0" style="-fx-border-width: 2; -fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transparent; -fx-border-color: #36436F;" styleClass="" text="Settings" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="34.0" />
                      </font>

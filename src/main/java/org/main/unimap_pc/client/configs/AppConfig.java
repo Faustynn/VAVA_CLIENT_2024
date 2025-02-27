@@ -20,10 +20,17 @@ public class AppConfig {
 
     // FXMLs
     private static final String LOGIN_PAGE_PATH = "/org/main/unimap_pc/views/LoginPage.fxml";
-    private static final String MAIN_PAGE_PATH = "/org/main/unimap_pc/views/MainPage.fxml";
     private static final String SIGNUP_PAGE_PATH = "/org/main/unimap_pc/views/SignUpPage.fxml";
     private static final String FORGOT_PASS_PAGE_PATH = "/org/main/unimap_pc/views/ForgotPass.fxml";
     private static final String FORGOT_PASS_PAGE_PATH2 = "/org/main/unimap_pc/views/ForgotPass_second.fxml";
+
+    private static final String MAIN_PAGE_PATH = "/org/main/unimap_pc/views/HomePage.fxml";
+    private static final String SUBJECTS_PAGE_PATH = "/org/main/unimap_pc/views/SubjectsPage.fxml";
+    private static final String TEACHERS_PAGE_PATH = "/org/main/unimap_pc/views/TeachersPage.fxml";
+    private static final String PROFILE_PAGE_PATH = "/org/main/unimap_pc/views/ProfilePage.fxml";
+    private static final String SETTINGS_PAGE_PATH = "/org/main/unimap_pc/views/SettingsPage.fxml";
+
+
 
     // APIs
     private static final String API_URL = "http://localhost:8080/api/unimap_pc/";
@@ -88,7 +95,18 @@ public class AppConfig {
     public static String getChangePassword() {
         return CHANGE_PASSWORD;
     }
-
+    public static String getSubjectsPagePath() {
+        return SUBJECTS_PAGE_PATH;
+    }
+    public static String getTeachersPagePath() {
+        return TEACHERS_PAGE_PATH;
+    }
+    public static String getProfilePagePath() {
+        return PROFILE_PAGE_PATH;
+    }
+    public static String getSettingsPagePath() {
+        return SETTINGS_PAGE_PATH;
+    }
 
     @Getter
     private static final String DEFAULT_LANGUAGE = "English";
