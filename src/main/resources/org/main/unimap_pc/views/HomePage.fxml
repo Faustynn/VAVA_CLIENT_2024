@@ -123,8 +123,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <image>
-                              <Image url="@../images/avatares/0.png" />
-                           </image>
+                              <Image url="@../images/avatares/0.png" />                           </image>
                         </ImageView>
                      </graphic>
                      <cursor>
