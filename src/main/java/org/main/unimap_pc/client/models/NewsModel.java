@@ -10,11 +10,11 @@ public class NewsModel {
     private int id;
     private String title;
     private String content;
-    private String date;
+    private String date_of_creation;
 
     // Constructors, getters, setters...
 
-    public NewsModel(int id, String title, String content, String date) {
+    public NewsModel() {
     }
 
     @Override
@@ -23,7 +23,7 @@ public class NewsModel {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", date='" + date + '\'' +
+                ", date='" + date_of_creation + '\'' +
                 '}';
     }
 }

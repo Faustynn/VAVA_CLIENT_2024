@@ -30,11 +30,6 @@ public class SubjectsPageController {
 
     }
 
-
-
-
-
-
     @FXML
     private MFXButton btn_homepage;
     @FXML

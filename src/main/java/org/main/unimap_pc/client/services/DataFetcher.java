@@ -62,7 +62,7 @@ public class DataFetcher {
                 });
     }
 
-    private CompletableFuture<Boolean> fetchNews() {
+    public static CompletableFuture<String> fetchNews() {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(AppConfig.getNewsUrl()))
                 .header("Authorization", "Bearer " + AuthService.prefs.get("ACCESS_TOKEN", ""))
@@ -73,22 +73,19 @@ public class DataFetcher {
                 .thenApply(response -> {
                     if (response.statusCode() == 200) {
                         try {
-                            ObjectMapper objectMapper = new ObjectMapper();
-                            List<NewsModel> newsList = objectMapper.readValue(response.body(), new TypeReference<List<NewsModel>>() {});
-                            System.out.println("Fetched news: " + newsList);
-                            return true;
+                           return response.body();
                         } catch (Exception e) {
                             System.err.println("Failed to parse news JSON response: " + e.getMessage());
-                            return false;
+                            return null;
                         }
                     } else {
                         System.err.println("Failed to fetch news with status code: " + response.statusCode());
-                        return false;
+                        return null;
                     }
                 })
                 .exceptionally(throwable -> {
                     System.err.println("News fetch request failed: " + throwable.getMessage());
-                    return false;
+                    return null;
                 });
     }
 
